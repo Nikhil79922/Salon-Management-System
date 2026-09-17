@@ -1,0 +1,50 @@
+# macOS
+.DS_Store
+
+# Postman local workspace
+.postman/
+postman/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Maven
+target/
+
+# Java
+*.class
+
+# Logs
+*.log
+logs/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Local Spring configuration
+application-local.properties
+application-local.yml
+
+# Build artifacts
+*.jar
+*.war
+*.ear
+
+# Test reports
+surefire-reports/
+failsafe-reports/
+
+# Coverage
+coverage/
+*.exec
+
+# Temporary files
+*.tmp
+*.temp
+*~
