@@ -11,6 +11,8 @@ public record UserResponse(
 
          String email,
 
+         String username,
+
          String phone,
 
          String role,

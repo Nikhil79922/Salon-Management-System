@@ -3,12 +3,14 @@ package com.example.user_service.exception;
 import com.example.user_service.dto.commonRes.ErrorResponse;
 import com.example.user_service.dto.commonRes.ValidationResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.databind.exc.UnrecognizedPropertyException;
 
@@ -27,7 +29,7 @@ public class GlobalException {
    exception.getBindingResult().getFieldErrors().forEach((fieldError) -> {
        errors.put(fieldError.getField(), fieldError.getDefaultMessage());
    });
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body( new ValidationResponse(false , "Bad Request" , LocalDateTime.now() ,HttpStatus.BAD_REQUEST.value(), request.getRequestURI() , errors));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ValidationResponse(false , "Bad Request" , LocalDateTime.now() ,HttpStatus.BAD_REQUEST.value(), request.getRequestURI() , errors));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -55,9 +57,42 @@ public class GlobalException {
                 ));
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ValidationResponse> handleMethodArgumentTypeMismatch(
+            MethodArgumentTypeMismatchException exception,
+            HttpServletRequest request
+    ) {
+
+        Map<String, String> fieldErrors = new HashMap<>();
+
+        String fieldName = exception.getName();
+
+        fieldErrors.put(
+                fieldName,
+                "Invalid value. Expected type: " +
+                        exception.getRequiredType().getSimpleName()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ValidationResponse(
+                        false,
+                        "Invalid request parameter",
+                        LocalDateTime.now(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        request.getRequestURI(),
+                        fieldErrors
+                ));
+    }
+
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ErrorResponse> NotFoundException(NotFoundException  exception , HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body( new ErrorResponse(false , exception.getMessage() , LocalDateTime.now() ,HttpStatus.NOT_FOUND.value(), request.getRequestURI()));
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateKeyException exception , HttpServletRequest request ) {
+        return new ResponseEntity<>(new ErrorResponse(false , exception.getMessage() , LocalDateTime.now() , HttpStatus.CONFLICT.value() , request.getRequestURI()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(value = Exception.class)
