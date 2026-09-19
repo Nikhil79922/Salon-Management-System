@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5002/api
+method: GET
+order: 2255485151235981

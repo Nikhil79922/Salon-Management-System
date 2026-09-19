@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:5001/api/users
+method: POST
+body:
+  type: json
+  content: |-
+    {
+            "fullName": "OG Singh",
+            "email": "nikkssy.dev@gmail.com",
+            "password":"Gasmonkey@2003",
+            "username": "@gasmonkey",
+            "phone": "7992238246",
+            "role": "ADMIN"
+        }
+order: 3915779596812155

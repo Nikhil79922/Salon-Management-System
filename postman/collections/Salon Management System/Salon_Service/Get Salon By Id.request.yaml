@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5002/api/salons/1
+method: GET
+order: 3601179613500291

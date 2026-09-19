@@ -1,0 +1,22 @@
+$kind: http-request
+url: http://localhost:5002/api/salons/1
+method: PATCH
+body:
+  type: json
+  content: |-
+    
+    {
+      "name": "Elite Beauty Salon",
+      "address": "Hirapur",
+      "phoneNumber": "+91-9876543210",
+      "email": "contact@elitebeautysalon.com",
+      "city": "Dhanbad",
+
+      "openTime": "10:00:00",
+      "closeTime": "22:00:00",
+      "images": [
+        "https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "https://images.pexels.com/photos/853427/pexels-photo-853427.jpeg?auto=compress&cs=tinysrgb&w=600"
+      ]
+    }
+order: 4333603682921089

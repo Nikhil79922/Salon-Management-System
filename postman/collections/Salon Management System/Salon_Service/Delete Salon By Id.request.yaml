@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5002/api/salons/1
+method: DELETE
+order: 4490268452445175

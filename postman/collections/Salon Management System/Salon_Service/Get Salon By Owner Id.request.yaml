@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5002/api/salons/owner
+method: GET
+order: 4188747301655477

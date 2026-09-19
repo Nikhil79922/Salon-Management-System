@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://localhost:5002/api/salons/search?city=mum
+method: GET
+queryParams:
+  city: mum
+order: 4078571701613926

@@ -7,19 +7,21 @@ import java.time.LocalDateTime;
 
 
 public record UserResponse(
-         String fullName,
+        Long id,
 
-         String email,
+        String fullName,
 
-         String username,
+        String email,
 
-         String phone,
+        String username,
 
-         String role,
+        String phone,
 
-         LocalDateTime createAt,
+        String role,
 
-         LocalDateTime updateAt
+        LocalDateTime createAt,
+
+        LocalDateTime updateAt
 ) {
 
 }
