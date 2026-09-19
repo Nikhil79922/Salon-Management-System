@@ -1,0 +1,9 @@
+$kind: http-request
+url: http://localhost:5003/api/category/salon-owner/search?name=cut
+method: GET
+queryParams:
+  - key: name
+    value: cut
+    disabled: false
+    description: ""
+order: 4174976572343756

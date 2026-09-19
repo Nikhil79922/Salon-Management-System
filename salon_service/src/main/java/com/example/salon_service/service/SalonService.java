@@ -18,7 +18,7 @@ public interface SalonService {
 
     SalonResponse getSalonById(Long id);
 
-    void deleteSalonById(Long id);
+    void deleteSalonById(Long id ,  UsersDto users);
 
     List<SalonResponse> getAllSalons();
 

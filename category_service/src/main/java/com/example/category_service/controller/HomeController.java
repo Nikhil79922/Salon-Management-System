@@ -1,4 +1,4 @@
-package com.example.salon_service.controller;
+package com.example.category_service.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping
     public String HomeControllerHandler(){
-        return "Salon service is running !";
+        return "Category service is running !";
     }
 }

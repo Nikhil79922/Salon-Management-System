@@ -50,7 +50,7 @@ public class SalonServiceImpl implements SalonService {
 
         if (!Objects.equals(details.getOwnerId(), users.id())) {
             throw new ForbiddenException(
-                    "You are not allowed to update salon with id " + id
+                    "You are not allowed to update this salon"
             );
         }
 
@@ -69,10 +69,16 @@ public class SalonServiceImpl implements SalonService {
 
     @Transactional
     @Override
-    public void deleteSalonById(Long id) {
+    public void deleteSalonById(Long id ,  UsersDto users ) {
         Salon details = salonRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Salon not found with id " + id)
         );
+
+        if (!Objects.equals(details.getOwnerId(), users.id())) {
+            throw new ForbiddenException(
+                    "You are not allowed to update this salon"
+            );
+        }
 
         salonRepository.delete(details);
     }

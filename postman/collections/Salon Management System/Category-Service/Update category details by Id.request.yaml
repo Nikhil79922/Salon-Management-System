@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:5003/api/category/salon-owner/1
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+      "name": "Nau cut",
+      "image": "https://images.pexels.com/photos/3331486/pexels-photo-3331486.jpeg?auto=compress&cs=tinysrgb&w=600"
+    }
+order: 4292860087098139

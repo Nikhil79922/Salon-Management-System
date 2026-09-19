@@ -9,6 +9,6 @@ public class HomeController {
 
     @GetMapping
     public String HomeControllerHandler(){
-        return "user Service for the Solan booking system's";
+        return "User service is running !";
     }
 }

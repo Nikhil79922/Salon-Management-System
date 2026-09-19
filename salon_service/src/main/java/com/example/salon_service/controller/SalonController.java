@@ -68,7 +68,8 @@ public class SalonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessResponse<String>> deleteSalonById(@Valid @PathVariable Long id) {
-       salonService.deleteSalonById(id);
+        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com");
+       salonService.deleteSalonById(id , userDetails);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<String>(
                 true,
