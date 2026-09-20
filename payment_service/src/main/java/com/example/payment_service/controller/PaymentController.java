@@ -2,6 +2,7 @@ package com.example.payment_service.controller;
 
 import com.example.payment_service.dto.*;
 import com.example.payment_service.dto.commonRes.SuccessResponse;
+import com.example.payment_service.entity.enums.PaymentMethod;
 import com.example.payment_service.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,12 @@ public class PaymentController {
 
     @PostMapping("/create")
     public ResponseEntity<SuccessResponse<PaymentLinkResponse>> createPaymentLink(
-            @Valid @RequestBody BookingDto booking , @RequestParam PaymentRequest  paymentRequest) {
+            @Valid @RequestBody BookingDto booking ,  @RequestParam PaymentMethod paymentMethod) {
         //Temporary
         UsersDto user = new UsersDto(1L, "Nikhil", "ns94301918@gmail.com", null, "7992238245", null, null, null);
+
+        PaymentRequest paymentRequest =
+                new PaymentRequest(paymentMethod);
 
         PaymentLinkResponse resDetail = paymentService.createPayment(
                 paymentRequest,
@@ -44,7 +48,7 @@ public class PaymentController {
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<SuccessResponse<PaymentResponse>> findPaymentById(
-            @PathVariable Long paymentId
+            @PathVariable String paymentId
     ) {
         PaymentResponse resDetail = paymentService.getPaymentOrderByPaymentId(paymentId);
 
@@ -77,13 +81,13 @@ public class PaymentController {
     @PostMapping("/{paymentId}/proceed")
     public ResponseEntity<SuccessResponse<Boolean>> proceedPayment(
             @PathVariable Long paymentId,
-            @RequestParam String paymentLinkedId
+            @RequestParam String paymentLinkId
     ) {
 
         Boolean success =
                 paymentService.proceedPayment(
                         paymentId,
-                        paymentLinkedId
+                        paymentLinkId
                 );
 
         return ResponseEntity.ok(

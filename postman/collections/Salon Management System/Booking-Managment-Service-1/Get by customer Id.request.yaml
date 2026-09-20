@@ -1,0 +1,5 @@
+$kind: http-request
+description: "Generated from cURL: curl --location 'http://localhost:5002/api/bookings/customer'"
+url: http://localhost:5002/api/bookings/customer
+method: GET
+order: 2874213920294457

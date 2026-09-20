@@ -60,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentResponse getPaymentOrderByPaymentId(Long paymentId) {
+    public PaymentResponse getPaymentOrderByPaymentId(String paymentId) {
         Payment payment = paymentRepository.findByPaymentLinkId(paymentId).orElseThrow(
                 ()-> new NotFoundException("Payment not found")
         );

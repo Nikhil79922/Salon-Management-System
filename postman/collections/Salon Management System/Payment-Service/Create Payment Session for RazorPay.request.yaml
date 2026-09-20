@@ -1,0 +1,33 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location --request POST \
+  'http://localhost:5006/api/payments/create?paymentMethod=STRIPE' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "id": 1,
+      "salonId": 10,
+      "serviceIds": [101, 102],
+      "startTime": "2026-09-21T10:00:00",
+      "endTime": "2026-09-21T11:00:00",
+      "status": "PENDING",
+      "totalPrice": 1500
+  }'
+url: http://localhost:5006/api/payments/create?paymentMethod=STRIPE
+method: POST
+headers:
+  Content-Type: application/json
+queryParams:
+  paymentMethod: STRIPE
+body:
+  type: json
+  content: |-
+    {
+        "id": 1,
+        "salonId": 10,
+        "serviceIds": [101, 102],
+        "startTime": "2026-09-21T10:00:00",
+        "endTime": "2026-09-21T11:00:00",
+        "status": "PENDING",
+        "totalPrice": 1500
+    }
+order: 1659514621222626

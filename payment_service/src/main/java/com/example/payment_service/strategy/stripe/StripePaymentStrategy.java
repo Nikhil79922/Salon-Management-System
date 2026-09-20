@@ -86,6 +86,12 @@ public class StripePaymentStrategy implements PaymentStrategy {
                                     "paymentId",
                                     String.valueOf(paymentId)
                             )
+                            // Stripe emails a receipt to the customer after successful payment
+                            .setPaymentIntentData(
+                                    SessionCreateParams.PaymentIntentData.builder()
+                                            .setReceiptEmail(usersDto.email())
+                                            .build()
+                            )
                             .addLineItem(
                                     SessionCreateParams.LineItem.builder()
                                             .setQuantity(1L)
@@ -114,7 +120,6 @@ public class StripePaymentStrategy implements PaymentStrategy {
                     .create(params);
 
         } catch (StripeException e) {
-
             throw new RuntimeException(
                     "Failed to create Stripe checkout session",
                     e

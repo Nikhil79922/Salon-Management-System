@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5004/api/service-offering/1
+method: GET
+order: 2817243373543582

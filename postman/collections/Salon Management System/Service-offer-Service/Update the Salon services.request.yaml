@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://localhost:5004/api/service-offering/salon-owner/2
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+      "name": "Body Massage",
+      "description": "A relaxing massage",
+      "price": 199,
+      "duration": 20,
+      "image": "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=600"
+    }
+order: 3293845512976800

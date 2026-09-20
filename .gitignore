@@ -43,3 +43,13 @@ coverage/
 **/*.tmp
 **/*.temp
 *~
+
+# Spring configuration (contains secrets) - applies to ALL services
+**/application.properties
+**/application.yml
+**/application.yaml
+**/application-*.properties
+**/application-*.yml
+**/application-*.yaml
+**/bootstrap.properties
+**/bootstrap.yml
