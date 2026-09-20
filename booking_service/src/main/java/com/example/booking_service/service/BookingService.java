@@ -1,11 +1,9 @@
 package com.example.booking_service.service;
 
 import com.example.booking_service.dto.*;
-import com.example.booking_service.entity.enums.BookingStatus;
-import com.example.booking_service.entity.model.SalonReport;
+import com.example.booking_service.entity.domains.SalonReport;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 

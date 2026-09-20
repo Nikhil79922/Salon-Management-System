@@ -1,6 +1,5 @@
-package com.example.booking_service.entity.model;
+package com.example.booking_service.entity.domains;
 
-import com.example.booking_service.dto.UsersDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

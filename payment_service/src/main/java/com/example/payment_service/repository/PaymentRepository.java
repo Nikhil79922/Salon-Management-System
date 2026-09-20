@@ -1,0 +1,17 @@
+package com.example.payment_service.repository;
+
+import com.example.payment_service.entity.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+
+@RestController
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
+
+    Optional<Payment> findByPaymentLinkId( Long paymentLinkId );
+
+
+
+}

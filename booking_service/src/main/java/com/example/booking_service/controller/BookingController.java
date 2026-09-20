@@ -2,8 +2,7 @@ package com.example.booking_service.controller;
 
 import com.example.booking_service.dto.*;
 import com.example.booking_service.dto.commonRes.SuccessResponse;
-import com.example.booking_service.entity.Booking;
-import com.example.booking_service.entity.model.SalonReport;
+import com.example.booking_service.entity.domains.SalonReport;
 import com.example.booking_service.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

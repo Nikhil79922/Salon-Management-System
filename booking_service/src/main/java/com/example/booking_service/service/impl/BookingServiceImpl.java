@@ -4,7 +4,7 @@ package com.example.booking_service.service.impl;
 import com.example.booking_service.dto.*;
 import com.example.booking_service.entity.Booking;
 import com.example.booking_service.entity.enums.BookingStatus;
-import com.example.booking_service.entity.model.SalonReport;
+import com.example.booking_service.entity.domains.SalonReport;
 import com.example.booking_service.exception.ForbiddenException;
 import com.example.booking_service.exception.BadRequestException;
 import com.example.booking_service.exception.NotFoundException;

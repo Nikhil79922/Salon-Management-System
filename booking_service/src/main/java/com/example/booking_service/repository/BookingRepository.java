@@ -2,7 +2,7 @@ package com.example.booking_service.repository;
 
 import com.example.booking_service.entity.Booking;
 import com.example.booking_service.entity.enums.BookingStatus;
-import com.example.booking_service.entity.model.SalonReport;
+import com.example.booking_service.entity.domains.SalonReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
