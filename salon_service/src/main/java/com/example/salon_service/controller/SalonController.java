@@ -2,8 +2,8 @@ package com.example.salon_service.controller;
 
 import com.example.salon_service.dto.SalonRequest;
 import com.example.salon_service.dto.SalonResponse;
-import com.example.salon_service.dto.SalonUpdateRequest;
 import com.example.salon_service.dto.UsersDto;
+import com.example.salon_service.dto.SalonUpdateRequest;
 import com.example.salon_service.dto.commonRes.SuccessResponse;
 import com.example.salon_service.service.SalonService;
 import jakarta.validation.Valid;
@@ -24,8 +24,8 @@ public class SalonController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<SalonResponse>> createSalon(@Valid @RequestBody SalonRequest salonRequest) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com");
-      SalonResponse resData = salonService.createSalon(salonRequest, userDetails);
+        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+        SalonResponse resData = salonService.createSalon(salonRequest, userDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED).body( new SuccessResponse<SalonResponse>(
                 true,
@@ -38,7 +38,7 @@ public class SalonController {
 
     @PatchMapping("/{salonId}")
     public ResponseEntity<SuccessResponse<SalonResponse>> updateSalon(@Valid @PathVariable Long salonId , @RequestBody SalonUpdateRequest salonRequest) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com");
+        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
         SalonResponse resData = salonService.updateSalon(salonRequest ,userDetails, salonId);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<SalonResponse>(
@@ -68,8 +68,8 @@ public class SalonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessResponse<String>> deleteSalonById(@Valid @PathVariable Long id) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com");
-       salonService.deleteSalonById(id , userDetails);
+        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+        salonService.deleteSalonById(id , userDetails);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<String>(
                 true,
@@ -95,7 +95,7 @@ public class SalonController {
 
     @GetMapping("/owner")
     public ResponseEntity<SuccessResponse<SalonResponse>> getSalonByOwnerId() {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com");
+        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
         SalonResponse resData = salonService.getSalonByOwnerId(userDetails.id());
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<SalonResponse>(

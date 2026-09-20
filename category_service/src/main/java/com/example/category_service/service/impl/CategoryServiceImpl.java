@@ -2,8 +2,8 @@ package com.example.category_service.service.impl;
 
 import com.example.category_service.dto.CategoryRequest;
 import com.example.category_service.dto.CategoryResponse;
-import com.example.category_service.dto.CategoryUpdateRequest;
 import com.example.category_service.dto.SalonDto;
+import com.example.category_service.dto.CategoryUpdateRequest;
 import com.example.category_service.entity.Category;
 import com.example.category_service.exception.ForbiddenException;
 import com.example.category_service.exception.NotFoundException;

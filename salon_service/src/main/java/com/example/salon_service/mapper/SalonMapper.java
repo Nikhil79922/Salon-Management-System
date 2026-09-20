@@ -1,9 +1,9 @@
 package com.example.salon_service.mapper;
 
 import com.example.salon_service.dto.SalonRequest;
+import com.example.salon_service.dto.UsersDto;
 import com.example.salon_service.dto.SalonResponse;
 import com.example.salon_service.dto.SalonUpdateRequest;
-import com.example.salon_service.dto.UsersDto;
 import com.example.salon_service.entity.Salon;
 import org.springframework.stereotype.Component;
 

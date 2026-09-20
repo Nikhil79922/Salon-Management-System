@@ -2,8 +2,8 @@ package com.example.salon_service.service.impl;
 
 import com.example.salon_service.dto.SalonRequest;
 import com.example.salon_service.dto.SalonResponse;
-import com.example.salon_service.dto.SalonUpdateRequest;
 import com.example.salon_service.dto.UsersDto;
+import com.example.salon_service.dto.SalonUpdateRequest;
 import com.example.salon_service.entity.Salon;
 import com.example.salon_service.exception.ForbiddenException;
 import com.example.salon_service.exception.NotFoundException;

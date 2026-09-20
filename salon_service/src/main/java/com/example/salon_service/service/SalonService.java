@@ -1,11 +1,10 @@
 package com.example.salon_service.service;
 
 import com.example.salon_service.dto.SalonRequest;
+import com.example.salon_service.dto.UsersDto;
 import com.example.salon_service.dto.SalonResponse;
 import com.example.salon_service.dto.SalonUpdateRequest;
-import com.example.salon_service.dto.UsersDto;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

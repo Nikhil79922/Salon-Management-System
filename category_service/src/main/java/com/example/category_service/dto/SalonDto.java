@@ -1,29 +1,29 @@
 package com.example.category_service.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import java.time.LocalTime;
+import java.util.List;
 
 public record SalonDto(
 
-        @NotBlank(message = "Id is required!")
         Long id,
 
-        @NotBlank(message = "Full name is required!")
-        @Size(
-                min = 2,
-                max = 30,
-                message = "Name must be between 2 and 30 characters"
-        )
-        @Pattern(
-                regexp = "^[a-zA-Z ]+$",
-                message = "Full name can contain only letters and spaces"
-        )
-        String fullName,
+        String name,
 
-        @NotBlank(message = "Email is required!")
-        @Email(message = "Invalid email format")
-        String email
+        List<String> images,
+
+        String address,
+
+        String phoneNumber,
+
+        String email,
+
+        String city,
+
+        Long ownerId,
+
+        LocalTime openTime,
+
+        LocalTime closeTime
+
 ) {
 }

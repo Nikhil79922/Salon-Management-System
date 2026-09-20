@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<CategoryResponse>> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , "chalChu@gmail.com");
+        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
         CategoryResponse resData = categoryService.createCategory(categoryRequest, salonDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -40,7 +40,7 @@ public class CategoryController {
 
     @PatchMapping("/{categoryId}")
     public ResponseEntity<SuccessResponse<CategoryResponse>> updateCategory(@Valid @RequestBody CategoryUpdateRequest categoryRequest, @PathVariable Long categoryId) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , "chalChu@gmail.com");
+        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
         CategoryResponse resData = categoryService.updateCategory(categoryRequest, salonDto , categoryId);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -55,7 +55,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<SuccessResponse<Set<CategoryResponse>>> getAllCategories() {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , "chalChu@gmail.com");
+        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
         Set<CategoryResponse> resDetails = categoryService.getCategoriesBySalonId(salonDto.id());
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -101,7 +101,7 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<SuccessResponse<String>> deleteCategoryById(@Valid @PathVariable Long categoryId) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , "chalChu@gmail.com");
+        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
         categoryService.deleteCategoryById(categoryId, salonDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SuccessResponse<String>(

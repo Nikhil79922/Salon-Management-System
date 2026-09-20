@@ -4,12 +4,11 @@ import com.example.category_service.dto.CategoryRequest;
 import com.example.category_service.dto.CategoryResponse;
 import com.example.category_service.dto.CategoryUpdateRequest;
 import com.example.category_service.dto.SalonDto;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Set;
+
 
 @Component
 public interface CategoryService {

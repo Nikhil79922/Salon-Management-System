@@ -1,4 +1,4 @@
-package com.example.salon_service.dto;
+package com.example.booking_service.dto;
 
 
 import java.time.LocalDateTime;

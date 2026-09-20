@@ -1,4 +1,4 @@
-package com.example.service_offering_service.dto;
+package com.example.booking_service.dto;
 
 public record CategoryDto(
         Long id,

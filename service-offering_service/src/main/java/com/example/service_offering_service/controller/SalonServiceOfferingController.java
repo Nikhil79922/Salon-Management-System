@@ -1,5 +1,7 @@
 package com.example.service_offering_service.controller;
 
+import com.example.category_service.dto.SalonDto;
+
 import com.example.service_offering_service.dto.*;
 import com.example.service_offering_service.dto.commonRes.SuccessResponse;
 import com.example.service_offering_service.service.ServiceOfferingService;
@@ -20,11 +22,11 @@ public class SalonServiceOfferingController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<ServiceOfferingResponse>> createServiceOffering(@Valid @RequestBody ServiceOfferingRequest serviceOfferingRequest) {
-        SalonDto salon = new SalonDto(1L);
+        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
 
-        CategoryDto category = new CategoryDto(serviceOfferingRequest.categoryId());
+        CategoryDto category = new CategoryDto(serviceOfferingRequest.categoryId() , null ,null ,null);
 
-        ServiceOfferingResponse resData = serviceOfferingService.createServiceOffering(serviceOfferingRequest , salon.id(), category.id());
+        ServiceOfferingResponse resData = serviceOfferingService.createServiceOffering(serviceOfferingRequest , salonDto.id(), category.id());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new SuccessResponse<ServiceOfferingResponse>(
