@@ -11,9 +11,9 @@ public interface PaymentService {
                                       );
     PaymentResponse getPaymentOrderById(Long id);
 
-    PaymentResponse getPaymentOrderByPaymentId(Long paymentId);
+    PaymentResponse getPaymentOrderByPaymentId(String paymentId);
 
-    Boolean proceedPayment(Long paymentId , String paymentLinkedId);
+    Boolean proceedPayment(Long paymentId , String paymentLinkId);
 
 
 

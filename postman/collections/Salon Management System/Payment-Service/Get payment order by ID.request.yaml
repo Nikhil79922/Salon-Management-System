@@ -1,0 +1,7 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location \
+  'http://localhost:5006/api/payments/paymentOrder/1
+url: http://localhost:5006/api/payments/paymentOrder/1
+method: GET
+order: 4007114418595842

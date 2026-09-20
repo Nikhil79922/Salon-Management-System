@@ -1,0 +1,13 @@
+$kind: http-request
+name: Proceed / verify Stripe payment
+description: |-
+  Generated from cURL: curl --location --request POST \
+  'http://localhost:5006/api/payments/1/proceed?paymentLinkedId=cs_test_xxxxxxxxx'
+url: http://localhost:5006/api/payments/9/proceed?paymentLinkId=cs_test_a1iuVXiNRMCH6Nl0VVMC342A3qveyD0vbZsnWdGoOxkRht8sGG68hFOh4M
+method: POST
+queryParams:
+  - key: paymentLinkId
+    value: cs_test_a1iuVXiNRMCH6Nl0VVMC342A3qveyD0vbZsnWdGoOxkRht8sGG68hFOh4M
+    disabled: false
+    description: ""
+order: 4317613722843244

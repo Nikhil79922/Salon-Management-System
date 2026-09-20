@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:5004/api/service-offering/salon-owner
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "Aromatherapy Massage",
+      "description": "A relaxing massage using essential oils to rejuvenate your senses.",
+      "price": 1299.99,
+      "duration": 90,
+      "categoryId": 1,
+      "image": "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=600"
+    }
+order: 1789818706158

@@ -1,0 +1,24 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:5002/api/bookings?salonId=1' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "salonId": 1,
+      "serviceIds": [1],
+      "startTime": "2026-09-21T10:00:00"
+  }'
+url: http://localhost:5002/api/bookings?salonId=1
+method: POST
+headers:
+  Content-Type: application/json
+queryParams:
+  salonId: "1"
+body:
+  type: json
+  content: |-
+    {
+        "salonId": 1,
+        "serviceIds": [1],
+        "startTime": "2026-09-21T10:00:00"
+    }
+order: 1659202289213786

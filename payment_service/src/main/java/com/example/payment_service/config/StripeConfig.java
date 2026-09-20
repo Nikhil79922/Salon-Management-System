@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StripeConfig {
 
-    @Value("${stripe.api.key}")
-    private String stripeApiKey;
+    @Value("${stripe.api.secret}")
+    private String stripeApiSecret;
 
     @Bean
     public StripeClient stripeClient() {
-        return new StripeClient(stripeApiKey);
+        return new StripeClient(stripeApiSecret);
     }
 }

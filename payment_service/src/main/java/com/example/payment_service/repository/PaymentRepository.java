@@ -10,7 +10,7 @@ import java.util.Optional;
 @RestController
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    Optional<Payment> findByPaymentLinkId( Long paymentLinkId );
+    Optional<Payment> findByPaymentLinkId( String paymentLinkId );
 
 
 

@@ -1,0 +1,10 @@
+$kind: http-request
+name: Proceed / verify RazorPay payment
+description: |-
+  Generated from cURL: curl --location --request POST \
+  'http://localhost:5006/api/payments/1/proceed?paymentLinkedId=plink_xxxxxxxxx'
+url: http://localhost:5006/api/payments/4/proceed?paymentLinkId=plink_TeMYmm1YreUyqH
+method: POST
+queryParams:
+  paymentLinkId: plink_TeMYmm1YreUyqH
+order: 4426512042857466

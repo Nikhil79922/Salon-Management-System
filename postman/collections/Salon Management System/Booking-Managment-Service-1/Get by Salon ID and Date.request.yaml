@@ -1,0 +1,5 @@
+$kind: http-request
+description: "Generated from cURL: curl --location 'http://localhost:5002/api/bookings/slots/salon/1/date/2026-09-21'"
+url: http://localhost:5005/api/bookings/slots/salon/1/date/2026-09-21
+method: GET
+order: 4495046454797582
