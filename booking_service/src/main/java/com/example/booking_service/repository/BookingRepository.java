@@ -41,7 +41,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     );
 
     @Query("""
-    SELECT new com.example.booking_service.entity.model.SalonReport(
+    SELECT new com.example.booking_service.entity.domains.SalonReport(
         :salonId,
         COALESCE(SUM(CASE
             WHEN b.status = com.example.booking_service.entity.enums.BookingStatus.CONFIRMED
