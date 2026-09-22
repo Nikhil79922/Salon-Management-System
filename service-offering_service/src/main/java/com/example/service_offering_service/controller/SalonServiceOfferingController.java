@@ -1,6 +1,6 @@
 package com.example.service_offering_service.controller;
 
-import com.example.category_service.dto.SalonDto;
+import com.example.service_offering_service.dto.SalonDto;
 
 import com.example.service_offering_service.dto.*;
 import com.example.service_offering_service.dto.commonRes.SuccessResponse;

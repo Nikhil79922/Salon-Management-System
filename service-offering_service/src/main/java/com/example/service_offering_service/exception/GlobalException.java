@@ -1,10 +1,10 @@
 package com.example.service_offering_service.exception;
 
 
-import com.example.category_service.dto.commonRes.ErrorResponse;
-import com.example.category_service.dto.commonRes.ValidationResponse;
-import com.example.category_service.exception.ForbiddenException;
-import com.example.category_service.exception.NotFoundException;
+import com.example.service_offering_service.dto.commonRes.ErrorResponse;
+import com.example.service_offering_service.dto.commonRes.ValidationResponse;
+import com.example.service_offering_service.exception.ForbiddenException;
+import com.example.service_offering_service.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
