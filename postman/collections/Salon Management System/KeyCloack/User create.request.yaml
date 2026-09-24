@@ -1,0 +1,54 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl -X POST "http://localhost:8080/admin/realms/master/users" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -d '{
+      "username": "ravina-3",
+      "enabled": true,
+      "firstName": "ravina",
+      "lastName": "chol",
+      "email": "ravina@gmail.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "12345678",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CUSTOMER"
+      ],
+      "clientRoles": {
+        "api-service-client": [
+          "CUSTOMER"
+        ]
+      }
+    }'
+url: http://localhost:8090/admin/realms/master/users
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer YOUR_ACCESS_TOKEN
+body:
+  type: json
+  content: |-
+    {
+        "username": "ravina-3",
+        "enabled": true,
+        "firstName": "ravina",
+        "lastName": "chol",
+        "email": "ravina@gmail.com",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "12345678",
+            "temporary": false
+          }
+        ]
+      }
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJOTlh2a2xpQmNuMWZJdnJ1ZzBMbzFzaUM5ZFVfWHlnMTZyaVM3ZXhsam9NIn0.eyJleHAiOjE3OTAyNjg5MTAsImlhdCI6MTc5MDI2ODg1MCwianRpIjoib25ydHJvOjAyYmFjYWNjLThmYTMtNzJkMC0wNjQ5LWE4MTYwZjE4NzEzYSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA5MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiNzc2ZGYyLWRjZmEtNDYzOS1hZjA0LTM0YTVmZDEyMGU3YiIsInR5cCI6IkJlYXJlciIsImF6cCI6InNhbG9uLWJvb2tpbmctY2xpZW50Iiwic2lkIjoiZVFTaE1USDQ0c29SNXBaUGNNMDBka0ZJIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6Ilpvc2giLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6b3NoIiwiZ2l2ZW5fbmFtZSI6Ilpvc2giLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9.H9OGWDRONttPmc48V1lvAREL9C80_0plD3YTxPkIDHC6GPK-NG2zlDO69vUYHv6_uF06I8hEB7_Gg0uwPKCCuw4mlfhy1fEnZv0K9zGqD9kJD0yGlnBHtygs3lizZeZal7j88Oq_AB42oX0q8WgQG1ytAVVSFLapLJONhRB0BTIlNkMv4-15d46EB0mncZt35SSaiseSaRCmKOZ2GHY413vFSsyj4hEgE6RZRAztnZ9K7vXt0M5YKut5FbJ0wF_x6CW8u2O3QfToqnfVK7ZjoETrQinN93tIn2gLaT8Ocs78PIKyNbMl_6E8yLdil7648KfBJ8ieMTqn2QIvLo9Ceg
+order: 2431794908517840

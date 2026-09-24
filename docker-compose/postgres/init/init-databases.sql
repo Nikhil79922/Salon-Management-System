@@ -1,0 +1,6 @@
+CREATE DATABASE paymentdb;
+CREATE DATABASE categorydb;
+CREATE DATABASE salondb;
+CREATE DATABASE servicesdb;
+CREATE DATABASE userdb;
+CREATE DATABASE bookingdb;

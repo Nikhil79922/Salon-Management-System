@@ -1,0 +1,209 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: gasmonkey
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    networks:
+      - gasmonkeynik
+
+  euerkaserver:
+    image: "gasmonkeynik/salon-eureka:v1"
+    ports:
+      - "8070:8070"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8070/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: eurekaserver
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+    networks:
+      - gasmonkeynik
+
+  gateway-service:
+    image: "gasmonkeynik/salon-gateway:v1"
+    ports:
+      - "8080:8080"
+    container_name: gateway-service
+    environment:
+      SPRING_APPLICATION_NAME: "gateway-service"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 45s
+    depends_on:
+      euerkaserver:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+    networks:
+      - gasmonkeynik
+
+  user-service:
+    image: "gasmonkeynik/salon-user:v1"
+    ports:
+      - "5001:5001"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5001/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: user-service
+    environment:
+      SPRING_APPLICATION_NAME: "users-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - gasmonkeynik
+
+  salon-service:
+    image: "gasmonkeynik/salon-salon:v1"
+    ports:
+      - "5002:5002"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5002/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: salon-service
+    environment:
+      SPRING_APPLICATION_NAME: "salon-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - gasmonkeynik
+
+  category-service:
+    image: "gasmonkeynik/salon-category:v1"
+    ports:
+      - "5003:5003"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5003/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: category-service
+    environment:
+      SPRING_APPLICATION_NAME: "category-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+    networks:
+      - gasmonkeynik
+
+  service-offering-service:
+    image: "gasmonkeynik/salon-servicesoffering:v1"
+    ports:
+      - "5004:5004"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5004/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: service-offering-service
+    environment:
+      SPRING_APPLICATION_NAME: "service-offering-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+    networks:
+      - gasmonkeynik
+
+  booking-service:
+    image: "gasmonkeynik/salon-booking:v1"
+    ports:
+      - "5005:5005"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5005/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: booking-service
+    environment:
+      SPRING_APPLICATION_NAME: "booking-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+    networks:
+      - gasmonkeynik
+
+  payment-service:
+    image: "gasmonkeynik/salon-payment:v1"
+    ports:
+      - "5006:5006"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5006/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    container_name: payment-service
+    environment:
+      SPRING_APPLICATION_NAME: "payment-service"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - gasmonkeynik
+
+volumes:
+  postgres_data:
+
+networks:
+  gasmonkeynik:
+    driver: "bridge"
