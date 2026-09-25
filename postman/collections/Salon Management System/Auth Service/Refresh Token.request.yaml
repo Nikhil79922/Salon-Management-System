@@ -1,0 +1,18 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:5001/api/auth/refresh-token' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "refreshToken": "YOUR_REFRESH_TOKEN"
+  }'
+url: http://localhost:5001/api/auth/refresh-token
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "refreshToken": "YOUR_REFRESH_TOKEN"
+    }
+order: 3794576357024884

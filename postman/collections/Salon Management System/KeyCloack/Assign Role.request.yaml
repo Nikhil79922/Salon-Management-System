@@ -1,0 +1,26 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:8080/admin/realms/master/users/USER_UUID/role-mappings/clients/582ff506-9703-477b-ab63-527482b43a20' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN' \
+  --data '[
+    {
+      "id": "SALON_OWNER_ROLE_UUID",
+      "name": "SALON_OWNER"
+    }
+  ]'
+url: http://localhost:8080/admin/realms/master/users/USER_UUID/role-mappings/clients/582ff506-9703-477b-ab63-527482b43a20
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN
+body:
+  type: json
+  content: |-
+    [
+      {
+        "id": "SALON_OWNER_ROLE_UUID",
+        "name": "SALON_OWNER"
+      }
+    ]
+order: 4459356766936251

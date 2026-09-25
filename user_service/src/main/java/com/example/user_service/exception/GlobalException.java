@@ -116,6 +116,23 @@ public class GlobalException {
                 ));
     }
 
+    @ExceptionHandler(KeycloakException.class)
+    public ResponseEntity<ErrorResponse> handleKeycloakException(
+            KeycloakException ex,
+            HttpServletRequest request
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(new ErrorResponse(
+                        false,
+                        ex.getMessage(),
+                        LocalDateTime.now(),
+                        HttpStatus.NOT_FOUND.value(),
+                        request.getRequestURI()
+                ));
+    }
+
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRunTimeException(RuntimeException exception , HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body( new ErrorResponse(false , "Internal Server Error" , LocalDateTime.now() ,HttpStatus.INTERNAL_SERVER_ERROR.value(), request.getRequestURI()));

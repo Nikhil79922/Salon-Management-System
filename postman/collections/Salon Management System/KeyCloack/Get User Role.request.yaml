@@ -1,0 +1,9 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:8080/admin/realms/master/users/3f4b41e8-93dc-446e-beea-f11cd730861f/role-mappings/clients/YOUR_CLIENT_UUID/available' \
+  --header 'Authorization: Bearer eyJ...'
+url: GET /admin/realms/master/users/5bca2256-31a6-4dce-9f51-35f551fbeb40/role-mappings/clients/cf1771c5-4b3b-450c-8169-2ce0d23aac37/available
+method: GET
+headers:
+  Authorization: Bearer eyJ...
+order: 4112741045884343

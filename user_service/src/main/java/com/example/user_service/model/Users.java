@@ -1,6 +1,7 @@
 package com.example.user_service.model;
 
 
+import com.example.user_service.model.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,22 +25,19 @@ public class Users {
 
     private String email;
 
-    private String password;
-
     private String username;
 
     private String phone;
 
-    private String role;
+    private UserRoles role;
 
     private LocalDateTime createAt;
 
     private LocalDateTime updateAt;
 
-    public Users(String fullName, String email, String password, String username, String phone, String role, LocalDateTime createAt, LocalDateTime updateAt) {
+    public Users(String fullName, String email, String username, String phone, UserRoles role, LocalDateTime createAt, LocalDateTime updateAt) {
         this.fullName = fullName;
         this.email = email;
-        this.password = password;
         this.username = username;
         this.phone = phone;
         this.role = role;

@@ -1,5 +1,6 @@
-package com.example.user_service.dto;
+package com.example.user_service.dto.userServiceDto;
 
+import com.example.user_service.model.enums.UserRoles;
 import jakarta.validation.constraints.*;
 
 public record UserRequest(
@@ -48,7 +49,7 @@ public record UserRequest(
         String phone,
 
         @NotNull(message = "Role is required")
-        String role
+        UserRoles role
 ) {
 
 }

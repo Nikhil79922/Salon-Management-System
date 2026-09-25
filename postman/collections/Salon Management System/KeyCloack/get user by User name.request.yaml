@@ -1,0 +1,11 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:8090/admin/realms/master/users?username=ravina-4' \
+  --header 'Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN'
+url: http://localhost:8090/admin/realms/master/users?username=ravina-4
+method: GET
+headers:
+  Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN
+queryParams:
+  username: ravina-4
+order: 4442247017618109

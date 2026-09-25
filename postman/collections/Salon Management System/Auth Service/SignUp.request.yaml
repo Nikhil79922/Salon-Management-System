@@ -1,0 +1,30 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:5001/api/auth/signUp' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "firstName": "Nikhil",
+      "lastName": "Singh",
+      "email": "nikhil@example.com",
+      "password": "Nikhil@123",
+      "username": "@nikhil",
+      "phone": "9876543210",
+      "role": "CUSTOMER"
+  }'
+url: http://localhost:5001/api/auth/signUp
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "firstName": "Nikhil",
+        "lastName": "Singh",
+        "email": "nikhil@example.com",
+        "password": "Nikhil@123",
+        "username": "@nikhil",
+        "phone": "9876543210",
+        "role": "CUSTOMER"
+    }
+order: 1790346546707

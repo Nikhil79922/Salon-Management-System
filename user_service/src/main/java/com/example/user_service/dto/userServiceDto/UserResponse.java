@@ -1,7 +1,7 @@
-package com.example.user_service.dto;
+package com.example.user_service.dto.userServiceDto;
 
 
-import lombok.AllArgsConstructor;
+import com.example.user_service.model.enums.UserRoles;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ public record UserResponse(
 
         String phone,
 
-        String role,
+        UserRoles role,
 
         LocalDateTime createAt,
 

@@ -1,8 +1,8 @@
 package com.example.user_service.mapper;
 
-import com.example.user_service.dto.UserRequest;
-import com.example.user_service.dto.UserResponse;
-import com.example.user_service.dto.UserUpdateRequest;
+import com.example.user_service.dto.userServiceDto.UserRequest;
+import com.example.user_service.dto.userServiceDto.UserResponse;
+import com.example.user_service.dto.userServiceDto.UserUpdateRequest;
 import com.example.user_service.model.Users;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,6 @@ public class UserMapper {
         return new Users(
                 user.fullName(),
                 user.email(),
-                user.password(),
                 user.username(),
                 user.phone(),
                 user.role(),
@@ -46,13 +45,9 @@ public class UserMapper {
 
         if (request.email() != null) user.setEmail(request.email());
 
-        if (request.password() != null) user.setPassword(request.password());
-
-        if (request.username() != null) user.setPassword(request.username());
+        if (request.username() != null) user.setUsername(request.username());
 
         if (request.phone() != null) user.setPhone(request.phone());
-
-        if (request.role() != null) user.setRole(request.role());
 
     }
 }

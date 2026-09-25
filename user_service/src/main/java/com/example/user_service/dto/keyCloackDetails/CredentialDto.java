@@ -4,7 +4,6 @@ public record CredentialDto(
         String type,
         String value,
         boolean temporary
-
 ) {
 
 }

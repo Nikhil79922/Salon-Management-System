@@ -1,11 +1,10 @@
 package com.example.user_service.controller;
 
-import com.example.user_service.dto.UserRequest;
-import com.example.user_service.dto.UserResponse;
-import com.example.user_service.dto.UserUpdateRequest;
+import com.example.user_service.dto.userServiceDto.UserRequest;
+import com.example.user_service.dto.userServiceDto.UserResponse;
+import com.example.user_service.dto.userServiceDto.UserUpdateRequest;
 import com.example.user_service.dto.commonRes.SuccessResponse;
-import com.example.user_service.model.Users;
-import com.example.user_service.service.UserService;
+import com.example.user_service.service.userService.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

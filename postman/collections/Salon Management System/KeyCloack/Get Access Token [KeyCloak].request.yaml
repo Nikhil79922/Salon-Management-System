@@ -8,17 +8,19 @@ description: |-
     -d "username=zosh" \
     -d "password=admin" \
     -d "scope=openid email profile"
-url: http://localhost:8080/realms/master/protocol/openid-connect/token
+url: http://localhost:8090/realms/master/protocol/openid-connect/token
 method: POST
 headers:
   Content-Type: application/x-www-form-urlencoded
 body:
   type: urlencoded
   content:
-    client_id: YOUR_CLIENT_ID
-    client_secret: YOUR_CLIENT_SECRET
+    client_id: salon-booking-client
+    client_secret: ivu0LaCe4qmjRewi3WhNAgDQP1xIkGH3RV1rBtxxAsjKKt9oEzCoNuZeR8IZM4lTl4W4E8MH5u5dZqhXMy8GxX
     grant_type: password
-    username: zosh
+    username: admin
     password: admin
     scope: openid email profile
+auth:
+  type: apikey
 order: 1790268517892

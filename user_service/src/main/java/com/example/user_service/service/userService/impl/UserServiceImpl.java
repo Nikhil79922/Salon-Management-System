@@ -1,19 +1,18 @@
-package com.example.user_service.service.impl;
+package com.example.user_service.service.userService.impl;
 
-import com.example.user_service.dto.UserRequest;
-import com.example.user_service.dto.UserResponse;
-import com.example.user_service.dto.UserUpdateRequest;
+import com.example.user_service.dto.userServiceDto.UserRequest;
+import com.example.user_service.dto.userServiceDto.UserResponse;
+import com.example.user_service.dto.userServiceDto.UserUpdateRequest;
 import com.example.user_service.exception.NotFoundException;
 import com.example.user_service.mapper.UserMapper;
 import com.example.user_service.model.Users;
 import com.example.user_service.repository.UserRepository;
-import com.example.user_service.service.UserService;
+import com.example.user_service.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,11 +78,19 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteUser(Long id) {
-        Users user = userRepository.findById(id)
+        userRepository.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException("User not found with id " + id)
                 );
 
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserResponse fetchByUserName(String userName) {
+        Users user = userRepository.findByUsername(userName).orElseThrow(() ->
+                new NotFoundException("Users not found with userName " + userName)
+        );
+        return userMapper.toUserResponse(user);
     }
 }

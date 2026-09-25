@@ -1,0 +1,9 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:8080/admin/realms/master/clients/582ff506-9703-477b-ab63-527482b43a20/roles/SALON_OWNER' \
+  --header 'Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN'
+url: http://localhost:8080/admin/realms/master/clients/582ff506-9703-477b-ab63-527482b43a20/roles/SALON_OWNER
+method: GET
+headers:
+  Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN
+order: 4432234701233690
