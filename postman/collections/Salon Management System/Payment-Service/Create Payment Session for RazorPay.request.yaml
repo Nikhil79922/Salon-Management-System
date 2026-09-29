@@ -12,12 +12,12 @@ description: |-
       "status": "PENDING",
       "totalPrice": 1500
   }'
-url: http://localhost:5006/api/payments/create?paymentMethod=STRIPE
+url: http://localhost:8080/api/payments/create?paymentMethod=RAZORPAY
 method: POST
 headers:
   Content-Type: application/json
 queryParams:
-  paymentMethod: STRIPE
+  paymentMethod: RAZORPAY
 body:
   type: json
   content: |-

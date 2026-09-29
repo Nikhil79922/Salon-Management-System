@@ -1,5 +1,5 @@
 $kind: http-request
-url: http://localhost:5004/api/service-offering/salon-owner/2
+url: http://localhost:8080/api/service-offering/salon-owner/1
 method: PATCH
 body:
   type: json
@@ -11,4 +11,8 @@ body:
       "duration": 20,
       "image": "https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=600"
     }
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
 order: 3293845512976800

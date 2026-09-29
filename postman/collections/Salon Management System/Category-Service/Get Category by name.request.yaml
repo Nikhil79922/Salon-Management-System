@@ -1,9 +1,6 @@
 $kind: http-request
-url: http://localhost:5003/api/category/salon-owner/search?name=cut
+url: http://localhost:8080/api/category/salon-owner/search?name=cut
 method: GET
 queryParams:
-  - key: name
-    value: cut
-    disabled: false
-    description: ""
+  name: cut
 order: 4174976572343756

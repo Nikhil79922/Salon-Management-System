@@ -1,19 +1,19 @@
-package com.example.salon_service.mapper;
-
-import com.example.salon_service.dto.UsersDto;
-import com.example.salon_service.dto.commonRes.SuccessResponse;
-import com.example.salon_service.exception.NotFoundException;
+package com.example.service_offering_service.mapper;
+import com.example.service_offering_service.dto.commonRes.SuccessResponse;
+import com.example.service_offering_service.exception.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FeignClientResponseMapper {
 
-    public UsersDto mapToDto(
-            ResponseEntity<SuccessResponse<UsersDto>> rest){
-        if(rest.getBody() == null){
-            throw new NotFoundException("User not found with the given token...");
+    public <T> T mapToDto(
+            ResponseEntity<SuccessResponse<T>> response) {
+
+        if (response.getBody() == null || response.getBody().data() == null) {
+            throw new NotFoundException("Feign client request data not found");
         }
-        return rest.getBody().data();
+
+        return response.getBody().data();
     }
 }

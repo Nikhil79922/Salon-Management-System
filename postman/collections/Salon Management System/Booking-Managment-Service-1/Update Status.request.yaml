@@ -5,7 +5,7 @@ description: |-
   --data '{
       "status": "CONFIRMED"
   }'
-url: http://localhost:5005/api/bookings/1/status
+url: http://localhost:8080/api/bookings/1/status
 method: PUT
 headers:
   Content-Type: application/json

@@ -6,7 +6,7 @@ description: |-
       "username": "@nikhil",
       "password": "Nikhil@123"
   }'
-url: http://localhost:5001/api/auth/login
+url: http://localhost:8080/api/auth/login
 method: POST
 headers:
   Content-Type: application/json
@@ -14,7 +14,7 @@ body:
   type: json
   content: |-
     {
-        "username": "@nikhil",
-        "password": "Nikhil@123"
+        "username": "@nikhil111118",
+        "password": "Nikhil@1123"
     }
 order: 2097069198326499

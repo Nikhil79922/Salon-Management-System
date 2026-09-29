@@ -13,6 +13,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -152,6 +153,64 @@ public class KeycloakUserService {
 
             throw new KeycloakException(
                     "Unable to communicate with Keycloak while fetching user",
+                    e
+            );
+        }
+    }
+
+
+    public KeyCloakUserDTO fetchUserProfileByJwt(String token) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        try {
+
+            ResponseEntity<KeyCloakUserDTO> response =
+                    restTemplate.exchange(
+                            properties.getUserInfoUrl(),
+                            HttpMethod.GET,
+                            requestEntity,
+                            KeyCloakUserDTO.class
+                    );
+
+            if (response.getBody() == null) {
+                throw new KeycloakException(
+                        "Keycloak returned empty user profile"
+                );
+            }
+
+            return response.getBody();
+
+        } catch (HttpClientErrorException e) {
+
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                throw new KeycloakException(
+                        "Invalid or expired Keycloak access token",
+                        e
+                );
+            }
+
+            throw new KeycloakException(
+                    "Keycloak rejected user profile request: "
+                            + e.getStatusCode(),
+                    e
+            );
+
+        } catch (HttpServerErrorException e) {
+
+            throw new KeycloakException(
+                    "Keycloak server error while fetching user profile",
+                    e
+            );
+
+        } catch (ResourceAccessException e) {
+
+            throw new KeycloakException(
+                    "Unable to communicate with Keycloak",
                     e
             );
         }

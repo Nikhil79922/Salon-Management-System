@@ -1,7 +1,7 @@
-package com.example.salon_service.service.client;
+package com.example.service_offering_service.service.client;
 
-import com.example.salon_service.dto.UsersDto;
-import com.example.salon_service.dto.commonRes.SuccessResponse;
+import com.example.service_offering_service.dto.SalonDto;
+import com.example.service_offering_service.dto.commonRes.SuccessResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,16 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 
-@FeignClient(name = "users-service")
-public interface UserFeignClient {
+@FeignClient(name = "salon-service")
+public interface SalonFeignClient {
 
-    @GetMapping("/api/users/{id}")
-    ResponseEntity<SuccessResponse<UsersDto>> getById(
-            @PathVariable("id") Long id
-    );
-
-    @GetMapping("/api/users/profile")
-    ResponseEntity<SuccessResponse<UsersDto>> getUserProfile(
-            @RequestHeader("Authorization") String jwt
+    @GetMapping("/api/salons/owner")
+    public ResponseEntity<SuccessResponse<SalonDto>> getSalonByOwnerId(
+            @RequestHeader("Authorization") String token
     );
 }

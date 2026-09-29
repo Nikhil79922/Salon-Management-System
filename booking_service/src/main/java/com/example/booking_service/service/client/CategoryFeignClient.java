@@ -1,7 +1,7 @@
-package com.example.service_offering_service.service.client;
+package com.example.booking_service.service.client;
 
-import com.example.service_offering_service.dto.CategoryDto;
-import com.example.service_offering_service.dto.commonRes.SuccessResponse;
+import com.example.booking_service.dto.CategoryDto;
+import com.example.booking_service.dto.commonRes.SuccessResponse;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

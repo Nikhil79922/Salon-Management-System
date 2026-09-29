@@ -1,5 +1,6 @@
 package com.example.user_service.service.userService.impl;
 
+import com.example.user_service.dto.keyCloackDetails.KeyCloakUserDTO;
 import com.example.user_service.dto.userServiceDto.UserRequest;
 import com.example.user_service.dto.userServiceDto.UserResponse;
 import com.example.user_service.dto.userServiceDto.UserUpdateRequest;
@@ -7,6 +8,7 @@ import com.example.user_service.exception.NotFoundException;
 import com.example.user_service.mapper.UserMapper;
 import com.example.user_service.model.Users;
 import com.example.user_service.repository.UserRepository;
+import com.example.user_service.service.keycloakService.KeycloakUserService;
 import com.example.user_service.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final KeycloakUserService keycloakUserService;
 
     private void checkUserNameDuplication(String userName) {
         Optional<Users> userDetail = userRepository.findByUsername(userName);
@@ -93,4 +96,16 @@ public class UserServiceImpl implements UserService {
         );
         return userMapper.toUserResponse(user);
     }
+
+    @Override
+    public UserResponse getUserFromJwt(String jwt) {
+        KeyCloakUserDTO keycloakUserDetails  = keycloakUserService.fetchUserProfileByJwt(jwt);
+        Users userDetails = userRepository.findByEmail(keycloakUserDetails.email()).orElseThrow(
+                ()-> new NotFoundException("User not found with email " + keycloakUserDetails.email())
+        );
+
+        return userMapper.toUserResponse(userDetails);
+    }
+
+
 }

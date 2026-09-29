@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres:16
     container_name: postgres
@@ -19,191 +20,372 @@ services:
     networks:
       - gasmonkeynik
 
-  euerkaserver:
+
+  # =========================
+  # KEYCLOAK
+  # =========================
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+
+    command:
+      - start-dev
+      - --http-port=8090
+      - --http-enabled=true
+      - --hostname-strict=false
+
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+
+    ports:
+      - "8090:8090"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - gasmonkeynik
+
+
+  # =========================
+  # EUREKA
+  # =========================
+
+  eurekaserver:
     image: "gasmonkeynik/salon-eureka:v1"
+    container_name: eurekaserver
+
     ports:
       - "8070:8070"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: eureka-server
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8070/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:8070/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: eurekaserver
+
     depends_on:
       postgres:
         condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 600m
+
     networks:
       - gasmonkeynik
 
+
+  # =========================
+  # GATEWAY
+  # =========================
+
   gateway-service:
     image: "gasmonkeynik/salon-gateway:v1"
+    container_name: gateway-service
+
     ports:
       - "8080:8080"
-    container_name: gateway-service
+
     environment:
-      SPRING_APPLICATION_NAME: "gateway-service"
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: gateway-service
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 15
       start_period: 45s
+
     depends_on:
       euerkaserver:
         condition: service_healthy
+      keycloak:
+        condition: service_started
+
     deploy:
       resources:
         limits:
           memory: 600m
+
     networks:
       - gasmonkeynik
+
+
+  # =========================
+  # USER SERVICE
+  # =========================
 
   user-service:
     image: "gasmonkeynik/salon-user:v1"
+
     ports:
       - "5001:5001"
+
+    container_name: user-service
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: users-service
+
+      KEYCLOAK_CLIENT_UUID: ${KEYCLOAK_CLIENT_UUID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5001/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5001/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: user-service
-    environment:
-      SPRING_APPLICATION_NAME: "users-service"
+
     depends_on:
       gateway-service:
         condition: service_healthy
+      keycloak:
+        condition: service_started
+
     deploy:
       resources:
         limits:
           memory: 700m
+
     networks:
       - gasmonkeynik
+
+
+  # =========================
+  # SALON SERVICE
+  # =========================
 
   salon-service:
     image: "gasmonkeynik/salon-salon:v1"
+
     ports:
       - "5002:5002"
+
+    container_name: salon-service
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: salon-service
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5002/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5002/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: salon-service
-    environment:
-      SPRING_APPLICATION_NAME: "salon-service"
+
     depends_on:
       gateway-service:
         condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 700m
+
     networks:
       - gasmonkeynik
 
+
+  # =========================
+  # CATEGORY SERVICE
+  # =========================
+
   category-service:
     image: "gasmonkeynik/salon-category:v1"
+    container_name: category-service
+
     ports:
       - "5003:5003"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: category-service
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5003/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5003/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: category-service
-    environment:
-      SPRING_APPLICATION_NAME: "category-service"
+
     depends_on:
-      gateway-service:
+      euerkaserver:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 600m
+
     networks:
       - gasmonkeynik
+
+
+  # =========================
+  # SERVICE OFFERING
+  # =========================
 
   service-offering-service:
     image: "gasmonkeynik/salon-servicesoffering:v1"
     ports:
       - "5004:5004"
+
+    container_name: service-offering-service
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: "service-offering-service"
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5004/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5004/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: service-offering-service
-    environment:
-      SPRING_APPLICATION_NAME: "service-offering-service"
+
     depends_on:
       gateway-service:
         condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 600m
+
     networks:
       - gasmonkeynik
+
+
+  # =========================
+  # BOOKING SERVICE
+  # =========================
 
   booking-service:
     image: "gasmonkeynik/salon-booking:v1"
+    container_name: booking-service
+
     ports:
       - "5005:5005"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: booking-service
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5005/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5005/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: booking-service
-    environment:
-      SPRING_APPLICATION_NAME: "booking-service"
+
     depends_on:
-      gateway-service:
+      euerkaserver:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 600m
+
     networks:
       - gasmonkeynik
 
+
+  # =========================
+  # PAYMENT SERVICE
+  # =========================
+
   payment-service:
     image: "gasmonkeynik/salon-payment:v1"
+
     ports:
       - "5006:5006"
+
+    container_name: payment-service
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: payment-service
+
+      RAZORPAY_API_KEY: ${RAZORPAY_API_KEY}
+      RAZORPAY_API_SECRET: ${RAZORPAY_API_SECRET}
+
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      STRIPE_API_SECRET: ${STRIPE_API_SECRET}
+
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5006/actuator/health || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5006/actuator/health || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
-    container_name: payment-service
-    environment:
-      SPRING_APPLICATION_NAME: "payment-service"
+
     depends_on:
       gateway-service:
         condition: service_healthy
+
     deploy:
       resources:
         limits:
           memory: 700m
+
     networks:
       - gasmonkeynik
+
 
 volumes:
   postgres_data:
 
+
 networks:
   gasmonkeynik:
-    driver: "bridge"
+    driver: bridge

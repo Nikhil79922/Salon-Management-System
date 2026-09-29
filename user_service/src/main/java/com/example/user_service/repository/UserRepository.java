@@ -21,4 +21,8 @@ public interface UserRepository extends JpaRepository<Users, Long> {
             message = "Username must start with @ and contain only letters, numbers and underscores"
     ) String username);
 
+        Optional<Users> findByEmail(@NotBlank(message = "Email is required") String email);
+
+
+
 }

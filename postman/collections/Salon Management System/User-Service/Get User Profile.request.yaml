@@ -1,8 +1,8 @@
 $kind: http-request
-url: http://localhost:8080/api/users
+url: http://localhost:8080/api/users/profile
 method: GET
 auth:
   type: bearer
   credentials:
     token: "{{jwt}}"
-order: 4144422325964817
+order: 4279605585150565

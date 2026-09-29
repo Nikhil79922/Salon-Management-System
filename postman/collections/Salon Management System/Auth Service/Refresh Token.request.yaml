@@ -5,7 +5,7 @@ description: |-
   --data '{
       "refreshToken": "YOUR_REFRESH_TOKEN"
   }'
-url: http://localhost:5001/api/auth/refresh-token
+url: http://localhost:8080/api/auth/refresh-token
 method: POST
 headers:
   Content-Type: application/json
@@ -13,6 +13,6 @@ body:
   type: json
   content: |-
     {
-        "refreshToken": "YOUR_REFRESH_TOKEN"
+        "refreshToken": "eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmNzE3ZWMzMS0xZTgzLTRjOTctODRmYi1mMWY4N2Q4YWIyNzcifQ.eyJleHAiOjE3OTA1MTA0OTQsImlhdCI6MTc5MDUwODY5NCwianRpIjoiMWFmODUwODUtZmZjMS05MzhiLTMxMGUtNDRkYjFlOWZiZDllIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDkwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwOTAvcmVhbG1zL21hc3RlciIsInN1YiI6IjNmNDc3MWYwLWQ3NTEtNDZjZC05YzkzLWQ5ZTNmZWVlYTgzOSIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJzYWxvbi1ib29raW5nLWNsaWVudCIsInNpZCI6IjZ2QTIyeXozNXUwQkNkaTRZOHlmNEhmSSIsInNjb3BlIjoib3BlbmlkIGVtYWlsIHdlYi1vcmlnaW5zIHNlcnZpY2VfYWNjb3VudCBwcm9maWxlIHJvbGVzIGJhc2ljIGFjciIsImF1ZF94IjoiYWNjb3VudCIsInByb3YiOiJkZWZhdWx0In0.mom-s_1NFM5wkVxLokrKiLjy7KmF6Hpgpcm7TfMZ1uVdy1_8Zni_THOk5iYg32wS08aPA5t1Hc-bYlup_Q0GCA"
     }
 order: 3794576357024884

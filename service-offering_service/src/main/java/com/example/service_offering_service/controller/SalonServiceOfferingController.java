@@ -4,7 +4,10 @@ import com.example.service_offering_service.dto.SalonDto;
 
 import com.example.service_offering_service.dto.*;
 import com.example.service_offering_service.dto.commonRes.SuccessResponse;
+import com.example.service_offering_service.mapper.FeignClientResponseMapper;
 import com.example.service_offering_service.service.ServiceOfferingService;
+import com.example.service_offering_service.service.client.CategoryFeignClient;
+import com.example.service_offering_service.service.client.SalonFeignClient;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,12 +22,21 @@ import java.time.LocalDateTime;
 public class SalonServiceOfferingController {
 
     private final ServiceOfferingService serviceOfferingService;
+    private final SalonFeignClient salonFeignClient;
+    private final CategoryFeignClient categoryFeignClient;
+    private final FeignClientResponseMapper feignClientResponseMapper;
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<ServiceOfferingResponse>> createServiceOffering(@Valid @RequestBody ServiceOfferingRequest serviceOfferingRequest) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
+    public ResponseEntity<SuccessResponse<ServiceOfferingResponse>>
+    createServiceOffering(
+            @Valid @RequestBody ServiceOfferingRequest serviceOfferingRequest,
+             @RequestHeader("Authorization") String token
+    ) {
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonFeignClient.getSalonByOwnerId(token) );
 
-        CategoryDto category = new CategoryDto(serviceOfferingRequest.categoryId() , null ,null ,null);
+        CategoryDto category = feignClientResponseMapper.mapToDto(
+                categoryFeignClient.getCategoryById(serviceOfferingRequest.categoryId()) );
 
         ServiceOfferingResponse resData = serviceOfferingService.createServiceOffering(serviceOfferingRequest , salonDto.id(), category.id());
 
@@ -39,10 +51,10 @@ public class SalonServiceOfferingController {
     }
 
     @PatchMapping("/{serviceId}")
-    public ResponseEntity<SuccessResponse<ServiceOfferingResponse>> updateServiceOffering(@Valid @RequestBody ServiceOfferingUpdateRequest serviceOfferingRequest , @PathVariable Long serviceId ) {
-//        SalonDto salon = new SalonDto(1L);
-//
-//        CategoryDto category = new CategoryDto(serviceOfferingRequest.categoryId());
+    public ResponseEntity<SuccessResponse<ServiceOfferingResponse>>
+                      updateServiceOffering(
+                              @Valid @RequestBody ServiceOfferingUpdateRequest serviceOfferingRequest,
+                              @PathVariable Long serviceId ) {
 
         ServiceOfferingResponse resData = serviceOfferingService.updateServiceOffering(serviceOfferingRequest ,serviceId );
 

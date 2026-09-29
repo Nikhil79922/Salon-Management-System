@@ -24,7 +24,8 @@ public class ServiceOfferingController {
             @PathVariable("salonId") Long salonId,
             @RequestParam(required = false) Long categoryId
     ) {
-Set<ServiceOfferingResponse> resData = serviceOfferingService.getAllServiceOfferingsBySalon(salonId, categoryId);
+Set<ServiceOfferingResponse> resData =
+        serviceOfferingService.getAllServiceOfferingsBySalon(salonId, categoryId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SuccessResponse<Set<ServiceOfferingResponse>>(

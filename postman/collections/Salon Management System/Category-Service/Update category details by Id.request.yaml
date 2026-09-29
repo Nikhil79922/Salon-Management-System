@@ -1,5 +1,5 @@
 $kind: http-request
-url: http://localhost:5003/api/category/salon-owner/1
+url: http://localhost:8080/api/category/salon-owner/2
 method: PATCH
 body:
   type: json

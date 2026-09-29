@@ -22,6 +22,7 @@ public class KeycloakProperties {
 
     private String roleByNameUrl;
     private String assignRoleUrl;
+    private String userInfoUrl;
 
     private String scope;
     private String username;

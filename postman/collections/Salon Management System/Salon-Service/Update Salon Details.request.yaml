@@ -1,5 +1,5 @@
 $kind: http-request
-url: http://localhost:5002/api/salons/1
+url: http://localhost:8080/api/salons/2
 method: PATCH
 body:
   type: json
@@ -11,7 +11,6 @@ body:
       "phoneNumber": "+91-9876543210",
       "email": "contact@elitebeautysalon.com",
       "city": "Dhanbad",
-
       "openTime": "10:00:00",
       "closeTime": "22:00:00",
       "images": [

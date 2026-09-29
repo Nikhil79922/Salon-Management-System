@@ -1,4 +1,8 @@
 $kind: http-request
-url: http://localhost:5002/api/salons/owner
+url: http://localhost:8080/api/salons/owner
 method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{Salon_acc}}"
 order: 4188747301655477

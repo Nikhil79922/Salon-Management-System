@@ -5,7 +5,9 @@ import com.example.salon_service.dto.SalonResponse;
 import com.example.salon_service.dto.UsersDto;
 import com.example.salon_service.dto.SalonUpdateRequest;
 import com.example.salon_service.dto.commonRes.SuccessResponse;
+import com.example.salon_service.mapper.FeignClientResponseMapper;
 import com.example.salon_service.service.SalonService;
+import com.example.salon_service.service.client.UserFeignClient;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,18 @@ import java.util.List;
 public class SalonController {
 
     private final SalonService salonService;
+    private final UserFeignClient userFeignClient;
+    private final FeignClientResponseMapper feignClientResponseMapper;
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<SalonResponse>> createSalon(@Valid @RequestBody SalonRequest salonRequest) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+    public ResponseEntity<SuccessResponse<SalonResponse>>
+                            createSalon(
+                                    @Valid @RequestBody SalonRequest salonRequest,
+                                    @RequestHeader("Authorization") String token
+    ) {
+        UsersDto userDetails = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token) );
+
         SalonResponse resData = salonService.createSalon(salonRequest, userDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED).body( new SuccessResponse<SalonResponse>(
@@ -37,8 +47,15 @@ public class SalonController {
     }
 
     @PatchMapping("/{salonId}")
-    public ResponseEntity<SuccessResponse<SalonResponse>> updateSalon(@Valid @PathVariable Long salonId , @RequestBody SalonUpdateRequest salonRequest) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+    public ResponseEntity<SuccessResponse<SalonResponse>>
+                              updateSalon(@Valid @PathVariable Long salonId,
+                                          @RequestBody SalonUpdateRequest salonRequest,
+                                          @RequestHeader("Authorization") String token
+                                        ) {
+
+        UsersDto userDetails = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token) );
+
         SalonResponse resData = salonService.updateSalon(salonRequest ,userDetails, salonId);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<SalonResponse>(
@@ -53,7 +70,8 @@ public class SalonController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponse<SalonResponse>> findSalonById(@Valid @PathVariable Long id) {
+    public ResponseEntity<SuccessResponse<SalonResponse>>
+    findSalonById(@Valid @PathVariable Long id) {
         SalonResponse resData = salonService.getSalonById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<SalonResponse>(
@@ -67,8 +85,15 @@ public class SalonController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SuccessResponse<String>> deleteSalonById(@Valid @PathVariable Long id) {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+    public ResponseEntity<SuccessResponse<String>>
+                          deleteSalonById(
+                                  @Valid @PathVariable Long id,
+                                  @RequestHeader("Authorization") String token
+                                  ) {
+
+        UsersDto userDetails = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token) );
+
         salonService.deleteSalonById(id , userDetails);
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<String>(
@@ -94,8 +119,13 @@ public class SalonController {
     }
 
     @GetMapping("/owner")
-    public ResponseEntity<SuccessResponse<SalonResponse>> getSalonByOwnerId() {
-        UsersDto userDetails = new UsersDto(1L , "Nikhil Bawa" , "nikkssy.dev@gmail.com" , null ,null ,null, null ,null);
+    public ResponseEntity<SuccessResponse<SalonResponse>> getSalonByOwnerId(
+            @RequestHeader("Authorization") String token
+    ) {
+
+        UsersDto userDetails = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token) );
+
         SalonResponse resData = salonService.getSalonByOwnerId(userDetails.id());
 
         return ResponseEntity.status(HttpStatus.OK).body( new SuccessResponse<SalonResponse>(

@@ -1,4 +1,4 @@
 $kind: http-request
-url: ""
+url: http://localhost:5001
 method: GET
 order: 1789751059869

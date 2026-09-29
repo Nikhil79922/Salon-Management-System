@@ -1,0 +1,12 @@
+name: New Environment
+values:
+  - key: Cust_acc
+    value: ''
+  - key: Salon_acc
+    value: ''
+  - key: Admin
+    value: ''
+  - key: Salon-refresh
+    value: ''
+  - key: Cust_refresh
+    value: ''

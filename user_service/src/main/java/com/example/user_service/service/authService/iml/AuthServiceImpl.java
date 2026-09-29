@@ -1,4 +1,4 @@
-package com.example.user_service.service.authService;
+package com.example.user_service.service.authService.iml;
 
 import com.example.user_service.dto.authDto.AuthResponse;
 import com.example.user_service.dto.keyCloackDetails.LoginDto;
@@ -8,6 +8,7 @@ import com.example.user_service.dto.keyCloackDetails.TokenResponse;
 import com.example.user_service.dto.userServiceDto.UserRequest;
 import com.example.user_service.dto.userServiceDto.UserResponse;
 import com.example.user_service.mapper.AuthMapper;
+import com.example.user_service.service.authService.AuthService;
 import com.example.user_service.service.keycloakService.KeycloakService;
 import com.example.user_service.service.keycloakService.KeycloakTokenService;
 import com.example.user_service.service.userService.UserService;

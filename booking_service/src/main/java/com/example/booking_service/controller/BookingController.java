@@ -3,7 +3,10 @@ package com.example.booking_service.controller;
 import com.example.booking_service.dto.*;
 import com.example.booking_service.dto.commonRes.SuccessResponse;
 import com.example.booking_service.entity.domains.SalonReport;
+import com.example.booking_service.entity.enums.PaymentMethod;
+import com.example.booking_service.mapper.FeignClientResponseMapper;
 import com.example.booking_service.service.BookingService;
+import com.example.booking_service.service.client.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,48 +24,62 @@ import java.util.Set;
 public class BookingController {
 
     private final BookingService bookingService;
+//    private final CategoryFeignClient categoryFeignClient;
+    private final UserFeignClient userFeignClient;
+    private final ServiceOfferingFeignClient serviceOfferingFeignClient;
+    private final SalonFeignClient salonFeignClient;
+    private final PaymentFeignClient paymentFeignClient;
+    private final FeignClientResponseMapper feignClientResponseMapper;
 
     @PostMapping()
-    public ResponseEntity<SuccessResponse<BookingResponse>> createBooking(@Valid @RequestParam("salonId") Long salonId, @RequestBody BookingRequest booking) {
-        //Temporary
-        UsersDto usersDto = new UsersDto(1L, null, null, null, null, null, null, null);
+    public ResponseEntity<SuccessResponse<PaymentLinkResponseDto>>
+    createBooking(
+            @Valid @RequestParam("salonId") Long salonId,
+            @RequestParam PaymentMethod paymentMethod,
+            @RequestBody BookingRequest booking,
+            @RequestHeader("Authorization") String token
+    ) {
+        UsersDto usersDto = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token) );
 
-        SalonDto salonDto = new SalonDto(1L, null, null, null, null, null, null, null, LocalTime.of(9, 0), LocalTime.of(21, 0));
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonFeignClient.findSalonById(salonId) );
 
-        Set<ServiceOfferingDto> serviceOfferingDtos = new HashSet<>();
-
-        ServiceOfferingDto services = new ServiceOfferingDto(1L,
-                "Hair Cut",
-                "Spa and hair wash included",
-                150,
-                45,
-                1L,
-                1L,
-                "Lol"
+        Set<ServiceOfferingDto> serviceOfferingDtos = feignClientResponseMapper.mapToDto(
+                serviceOfferingFeignClient.getServicesByIds(booking.serviceIds())
         );
 
-        serviceOfferingDtos.add(services);
-
-        BookingResponse resDetails = bookingService.createBooking(booking,
+        BookingResponse bookingDetails = bookingService.createBooking(booking,
                 usersDto,
                 salonDto,
                 serviceOfferingDtos
         );
 
+        PaymentLinkResponseDto paymentDetails = feignClientResponseMapper.mapToDto(
+                paymentFeignClient.createPaymentLink(
+                        bookingDetails,
+                        paymentMethod,
+                        token
+                )
+        );
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new SuccessResponse<BookingResponse>(
+                .body(new SuccessResponse<PaymentLinkResponseDto>(
                         true,
                         "Booking created Successfully",
-                        resDetails,
+                        paymentDetails,
                         LocalDateTime.now(),
                         HttpStatus.CREATED.value()
                 ));
     }
 
     @GetMapping("/customer")
-    public ResponseEntity<SuccessResponse<List<BookingResponse>>> findBookingByCustomer() {
-
-        UsersDto usersDto = new UsersDto(1L, null, null, null, null, null, null, null);
+    public ResponseEntity<SuccessResponse<List<BookingResponse>>>
+    findBookingByCustomer(
+            @RequestHeader("Authorization") String token
+    ) {
+        UsersDto usersDto = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token));
 
         List<BookingResponse> resDetails = bookingService.getBookingByCustomer(usersDto.id());
 
@@ -80,10 +95,12 @@ public class BookingController {
     }
 
     @GetMapping("/salon")
-    public ResponseEntity<SuccessResponse<List<BookingResponse>>> findBookingBySalon() {
-
-
-        SalonDto salonDto = new SalonDto(1L, null, null, null, null, null, null, null, LocalTime.of(9, 0), LocalTime.of(21, 0));
+    public ResponseEntity<SuccessResponse<List<BookingResponse>>>
+    findBookingBySalon(
+            @RequestHeader("Authorization") String token
+    ) {
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonFeignClient.getSalonByOwnerId(token));
 
         List<BookingResponse> resDetails = bookingService.getBookingBySalon(salonDto.id());
 
@@ -99,7 +116,8 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponse<BookingResponse>> findBookingById(@PathVariable Long id) {
+    public ResponseEntity<SuccessResponse<BookingResponse>>
+    findBookingById(@PathVariable Long id) {
 
         BookingResponse resDetails = bookingService.getBookingById(id);
 
@@ -114,9 +132,12 @@ public class BookingController {
 
     }
 
-
     @PutMapping("/{bookingId}/status")
-    public ResponseEntity<SuccessResponse<BookingResponse>> updateStatus(@PathVariable Long bookingId, @Valid @RequestBody BookingUpdateRequest bookingRequest) {
+    public ResponseEntity<SuccessResponse<BookingResponse>>
+    updateStatus(
+            @PathVariable Long bookingId,
+            @Valid @RequestBody BookingUpdateRequest bookingRequest
+    ) {
 
         BookingResponse resDetails = bookingService.updateBooking(bookingId, bookingRequest);
 
@@ -128,15 +149,16 @@ public class BookingController {
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
                 ));
-
     }
 
-
-
     @GetMapping("/slots/salon/{salonId}/date/{date}")
-    public ResponseEntity<SuccessResponse<List<BookingResponse>>>  findBookingByDate(@PathVariable Long salonId , @PathVariable(required = false) LocalDate date) {
+    public ResponseEntity<SuccessResponse<List<BookingResponse>>>
+    findBookingByDate(
+            @PathVariable Long salonId,
+            @PathVariable(required = false) LocalDate date
+    ) {
 
-        List<BookingResponse> resDetails = bookingService.getBookingByDate(date , salonId);
+        List<BookingResponse> resDetails = bookingService.getBookingByDate(date, salonId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SuccessResponse<List<BookingResponse>>(
@@ -150,9 +172,11 @@ public class BookingController {
 
 
     @GetMapping("/report")
-    public ResponseEntity<SuccessResponse<SalonReport>>  findSalonReport() {
-
-        SalonDto salonDto = new SalonDto(1L, null, null, null, null, null, null, null, LocalTime.of(9, 0), LocalTime.of(21, 0));
+    public ResponseEntity<SuccessResponse<SalonReport>> findSalonReport(
+            @RequestHeader("Authorization") String token
+    ) {
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonFeignClient.getSalonByOwnerId(token));
 
         SalonReport resDetails = bookingService.getSalonReport(salonDto.id());
 
@@ -165,7 +189,4 @@ public class BookingController {
                         HttpStatus.OK.value()
                 ));
     }
-
-
-
 }

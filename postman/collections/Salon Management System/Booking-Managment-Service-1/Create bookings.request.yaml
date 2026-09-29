@@ -7,18 +7,22 @@ description: |-
       "serviceIds": [1],
       "startTime": "2026-09-21T10:00:00"
   }'
-url: http://localhost:5002/api/bookings?salonId=1
+url: http://localhost:8080/api/bookings?salonId=1&paymentMethod=RAZORPAY
 method: POST
 headers:
   Content-Type: application/json
 queryParams:
   salonId: "1"
+  paymentMethod: RAZORPAY
 body:
   type: json
   content: |-
     {
-        "salonId": 1,
-        "serviceIds": [1],
-        "startTime": "2026-09-21T10:00:00"
+        "startTime": "2026-09-28T18:00:00",
+        "serviceIds":[1,2]
     }
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
 order: 1659202289213786

@@ -1,4 +1,4 @@
 $kind: http-request
-url: ""
+url: http://localhost:8080/api/category/salon-owner/2
 method: GET
 order: 3992314343365826

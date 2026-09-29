@@ -1,6 +1,6 @@
-package com.example.booking_service.mapper;
-import com.example.booking_service.dto.commonRes.SuccessResponse;
-import com.example.booking_service.exception.NotFoundException;
+package com.example.payment_service.mapper;
+import com.example.payment_service.dto.commonRes.SuccessResponse;
+import com.example.payment_service.exception.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 

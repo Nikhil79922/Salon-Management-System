@@ -19,4 +19,6 @@ public interface UserService {
      void deleteUser(Long id);
 
      UserResponse fetchByUserName(String userName);
+
+     UserResponse getUserFromJwt(String jwt);
 }

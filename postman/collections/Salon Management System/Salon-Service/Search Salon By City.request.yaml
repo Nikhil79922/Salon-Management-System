@@ -1,6 +1,10 @@
 $kind: http-request
-url: http://localhost:5002/api/salons/search?city=mum
+url: http://localhost:8080/api/salons/search?city=Mum
 method: GET
 queryParams:
-  city: mum
+  city: Mum
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
 order: 4078571701613926

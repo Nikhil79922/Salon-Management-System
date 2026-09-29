@@ -5,7 +5,9 @@ import com.example.category_service.dto.CategoryResponse;
 import com.example.category_service.dto.CategoryUpdateRequest;
 import com.example.category_service.dto.SalonDto;
 import com.example.category_service.dto.commonRes.SuccessResponse;
+import com.example.category_service.mapper.FeignClientResponseMapper;
 import com.example.category_service.service.CategoryService;
+import com.example.category_service.service.client.SalonFeignClient;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,10 +24,18 @@ import java.util.Set;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final SalonFeignClient salonClient;
+    private final FeignClientResponseMapper feignClientResponseMapper;
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<CategoryResponse>> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
+    public ResponseEntity<SuccessResponse<CategoryResponse>>
+    createCategory(
+            @Valid @RequestBody CategoryRequest categoryRequest,
+            @RequestHeader("Authorization") String token
+    ) {
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonClient.getSalonByOwnerId(token));
+
         CategoryResponse resData = categoryService.createCategory(categoryRequest, salonDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -35,13 +45,20 @@ public class CategoryController {
                         resData,
                         LocalDateTime.now(),
                         HttpStatus.CREATED.value()
-                ) );
+                ));
     }
 
     @PatchMapping("/{categoryId}")
-    public ResponseEntity<SuccessResponse<CategoryResponse>> updateCategory(@Valid @RequestBody CategoryUpdateRequest categoryRequest, @PathVariable Long categoryId) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
-        CategoryResponse resData = categoryService.updateCategory(categoryRequest, salonDto , categoryId);
+    public ResponseEntity<SuccessResponse<CategoryResponse>>
+    updateCategory(
+            @Valid @RequestBody CategoryUpdateRequest categoryRequest,
+            @PathVariable Long categoryId,
+            @RequestHeader("Authorization") String token
+    ) {
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonClient.getSalonByOwnerId(token));
+
+        CategoryResponse resData = categoryService.updateCategory(categoryRequest, salonDto, categoryId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SuccessResponse<CategoryResponse>(
@@ -50,12 +67,17 @@ public class CategoryController {
                         resData,
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
-                ) );
+                ));
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<Set<CategoryResponse>>> getAllCategories() {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
+    public ResponseEntity<SuccessResponse<Set<CategoryResponse>>> getAllCategories(
+            @RequestHeader("Authorization") String token
+    ) {
+
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonClient.getSalonByOwnerId(token));
+
         Set<CategoryResponse> resDetails = categoryService.getCategoriesBySalonId(salonDto.id());
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -65,12 +87,12 @@ public class CategoryController {
                         resDetails,
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
-                ) );
+                ));
     }
 
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<SuccessResponse<CategoryResponse>> getAllCategories(@Valid @PathVariable Long categoryId) {
+    public ResponseEntity<SuccessResponse<CategoryResponse>> getCategoryById(@Valid @PathVariable Long categoryId) {
         CategoryResponse resData = categoryService.getCategoryById(categoryId);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -80,7 +102,7 @@ public class CategoryController {
                         resData,
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
-                ) );
+                ));
     }
 
 
@@ -95,13 +117,20 @@ public class CategoryController {
                         resData,
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
-                ) );
+                ));
     }
 
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<SuccessResponse<String>> deleteCategoryById(@Valid @PathVariable Long categoryId) {
-        SalonDto salonDto = new SalonDto(2L , "Might salon" , null , null ,null ,null ,null , null , null , null );
+    public ResponseEntity<SuccessResponse<String>>
+    deleteCategoryById(
+            @Valid @PathVariable Long categoryId,
+            @RequestHeader("Authorization") String token
+    ) {
+
+        SalonDto salonDto = feignClientResponseMapper.mapToDto(
+                salonClient.getSalonByOwnerId(token));
+
         categoryService.deleteCategoryById(categoryId, salonDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SuccessResponse<String>(
@@ -110,7 +139,7 @@ public class CategoryController {
                         "Category deleted successfully",
                         LocalDateTime.now(),
                         HttpStatus.OK.value()
-                ) );
+                ));
     }
 
 

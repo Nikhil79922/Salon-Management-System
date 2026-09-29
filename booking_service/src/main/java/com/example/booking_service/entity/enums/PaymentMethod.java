@@ -1,4 +1,4 @@
-package com.example.payment_service.entity.enums;
+package com.example.booking_service.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

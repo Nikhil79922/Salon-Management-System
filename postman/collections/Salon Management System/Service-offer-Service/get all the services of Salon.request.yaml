@@ -1,4 +1,9 @@
 $kind: http-request
-url: ""
+url: http://localhost:8080/api/service-offering/salon/1?categoryId=2
 method: GET
+queryParams:
+  - key: categoryId
+    value: "2"
+    disabled: false
+    description: ""
 order: 871746261323586

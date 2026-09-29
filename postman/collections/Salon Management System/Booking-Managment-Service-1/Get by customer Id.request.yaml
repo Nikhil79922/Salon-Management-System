@@ -1,5 +1,9 @@
 $kind: http-request
 description: "Generated from cURL: curl --location 'http://localhost:5002/api/bookings/customer'"
-url: http://localhost:5002/api/bookings/customer
+url: http://localhost:8080/api/bookings/customer
 method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
 order: 2874213920294457

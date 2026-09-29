@@ -3,7 +3,9 @@ package com.example.payment_service.controller;
 import com.example.payment_service.dto.*;
 import com.example.payment_service.dto.commonRes.SuccessResponse;
 import com.example.payment_service.entity.enums.PaymentMethod;
+import com.example.payment_service.mapper.FeignClientResponseMapper;
 import com.example.payment_service.service.PaymentService;
+import com.example.payment_service.service.client.UserFeignClient;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,19 +21,24 @@ import java.time.LocalDateTime;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final UserFeignClient userFeignClient;
+    private final FeignClientResponseMapper feignClientResponseMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<SuccessResponse<PaymentLinkResponse>> createPaymentLink(
-            @Valid @RequestBody BookingDto booking ,  @RequestParam PaymentMethod paymentMethod) {
-        //Temporary
-        UsersDto user = new UsersDto(1L, "Nikhil", "ns94301918@gmail.com", null, "7992238245", null, null, null);
-
+    public ResponseEntity<SuccessResponse<PaymentLinkResponse>>
+    createPaymentLink(
+            @Valid @RequestBody BookingDto booking,
+            @RequestParam PaymentMethod paymentMethod,
+            @RequestHeader("Authorization") String token
+    ) {
+        UsersDto usersDto = feignClientResponseMapper.mapToDto(
+                userFeignClient.getUserProfile(token));
         PaymentRequest paymentRequest =
                 new PaymentRequest(paymentMethod);
 
         PaymentLinkResponse resDetail = paymentService.createPayment(
                 paymentRequest,
-                user,
+                usersDto,
                 booking
         );
 

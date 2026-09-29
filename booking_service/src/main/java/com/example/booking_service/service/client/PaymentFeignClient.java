@@ -1,18 +1,23 @@
 package com.example.booking_service.service.client;
 
-import com.example.booking_service.dto.SalonDto;
+import com.example.booking_service.dto.BookingResponse;
+import com.example.booking_service.dto.PaymentLinkResponseDto;
 import com.example.booking_service.dto.commonRes.SuccessResponse;
+import com.example.booking_service.entity.enums.PaymentMethod;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(name = "salon-service")
-public interface SalonFeignClient {
+@FeignClient(name = "payment-service")
+public interface PaymentFeignClient {
 
-    @GetMapping("/api/salons/owner")
-    public ResponseEntity<SuccessResponse<SalonDto>> getSalonByOwnerId(
+    @PostMapping("/api/payments/create")
+    public ResponseEntity<SuccessResponse<PaymentLinkResponseDto>>
+    createPaymentLink(
+            @Valid @RequestBody BookingResponse booking,
+            @RequestParam PaymentMethod paymentMethod,
             @RequestHeader("Authorization") String token
     );
 }
