@@ -1,0 +1,7 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location \
+  'http://localhost:8080/api/reviews/salon/10'
+url: http://localhost:8080/api/reviews/salon/10
+method: GET
+order: 255970458633806

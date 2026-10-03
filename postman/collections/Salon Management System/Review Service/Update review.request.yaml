@@ -1,0 +1,29 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location --request PUT \
+  'http://localhost:8080/api/reviews/1?userId=1' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "rating": 5.0,
+    "reviewText": "Excellent service.",
+    "userId": 1,
+    "salonId": 10,
+    "bookingId": 100
+  }'
+url: http://localhost:8080/api/reviews/1?userId=1
+method: PUT
+headers:
+  Content-Type: application/json
+queryParams:
+  userId: "1"
+body:
+  type: json
+  content: |-
+    {
+      "rating": 5.0,
+      "reviewText": "Excellent service.",
+      "userId": 1,
+      "salonId": 10,
+      "bookingId": 100
+    }
+order: 3906551530097379

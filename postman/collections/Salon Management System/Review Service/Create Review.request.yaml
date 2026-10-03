@@ -1,0 +1,24 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:8080/api/reviews/salon/10' \
+  --header 'Authorization: Bearer YOUR_JWT_TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "rating": 4.5,
+    "reviewText": "Great service and experience.",
+    "bookingId": 100
+  }'
+url: http://localhost:8080/api/reviews/salon/10
+method: POST
+headers:
+  Authorization: Bearer YOUR_JWT_TOKEN
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "rating": 4.5,
+      "reviewText": "Great service and experience.",
+      "bookingId": 100
+    }
+order: 1791052940903

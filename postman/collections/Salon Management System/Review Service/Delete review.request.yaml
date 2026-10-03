@@ -1,0 +1,9 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location --request DELETE \
+  'http://localhost:8080/api/reviews/1?userId=1'
+url: http://localhost:8080/api/reviews/1?userId=1
+method: DELETE
+queryParams:
+  userId: "1"
+order: 4025887664507257
