@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: f958a56f-d6ef-4d17-b6c9-3731404fd524
+
+localResources:
+  environments:
+    - ../environments/New Environment.environment.yaml

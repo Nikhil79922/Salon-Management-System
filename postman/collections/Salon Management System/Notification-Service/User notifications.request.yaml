@@ -1,0 +1,9 @@
+$kind: http-request
+description: "Generated from cURL: curl --location 'http://localhost:5010/api/notifications/user/1'"
+url: http://localhost:8080/api/notifications/user/1
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
+order: 1431090091663795

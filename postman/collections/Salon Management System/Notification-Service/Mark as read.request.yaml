@@ -1,0 +1,11 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location --request PATCH \
+  'http://localhost:5010/api/notifications/1/read'
+url: http://localhost:5010/api/notifications/1/read
+method: PATCH
+auth:
+  type: bearer
+  credentials:
+    token: "{{Cust_acc}}"
+order: 1743924557568

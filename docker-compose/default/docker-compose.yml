@@ -1,57 +1,36 @@
 services:
 
+  # =========================
+  # POSTGRES
+  # =========================
+
   postgres:
     image: postgres:16
     container_name: postgres
+
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: gasmonkey
+
     ports:
       - "5432:5432"
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 10s
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d
-    networks:
-      - gasmonkeynik
-
-
-  # =========================
-  # KEYCLOAK
-  # =========================
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak
-
-    command:
-      - start-dev
-      - --http-port=8090
-      - --http-enabled=true
-      - --hostname-strict=false
-
-    environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-
-    ports:
-      - "8090:8090"
-
-    depends_on:
-      postgres:
-        condition: service_healthy
 
     networks:
       - gasmonkeynik
 
-
   # =========================
-  # EUREKA
+  # EUREKA SERVER
   # =========================
 
   eurekaserver:
@@ -76,10 +55,6 @@ services:
       retries: 10
       start_period: 20s
 
-    depends_on:
-      postgres:
-        condition: service_healthy
-
     deploy:
       resources:
         limits:
@@ -90,7 +65,7 @@ services:
 
 
   # =========================
-  # GATEWAY
+  # API GATEWAY
   # =========================
 
   gateway-service:
@@ -116,8 +91,9 @@ services:
       start_period: 45s
 
     depends_on:
-      euerkaserver:
+      eurekaserver:
         condition: service_healthy
+
       keycloak:
         condition: service_started
 
@@ -136,11 +112,10 @@ services:
 
   user-service:
     image: "gasmonkeynik/salon-user:v1"
+    container_name: user-service
 
     ports:
       - "5001:5001"
-
-    container_name: user-service
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -161,8 +136,12 @@ services:
       start_period: 20s
 
     depends_on:
-      gateway-service:
+      eurekaserver:
         condition: service_healthy
+
+      postgres:
+        condition: service_healthy
+
       keycloak:
         condition: service_started
 
@@ -181,11 +160,10 @@ services:
 
   salon-service:
     image: "gasmonkeynik/salon-salon:v1"
+    container_name: salon-service
 
     ports:
       - "5002:5002"
-
-    container_name: salon-service
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -203,7 +181,10 @@ services:
       start_period: 20s
 
     depends_on:
-      gateway-service:
+      eurekaserver:
+        condition: service_healthy
+
+      postgres:
         condition: service_healthy
 
     deploy:
@@ -242,8 +223,9 @@ services:
       start_period: 20s
 
     depends_on:
-      euerkaserver:
+      eurekaserver:
         condition: service_healthy
+
       postgres:
         condition: service_healthy
 
@@ -262,14 +244,14 @@ services:
 
   service-offering-service:
     image: "gasmonkeynik/salon-servicesoffering:v1"
+    container_name: service-offering-service
+
     ports:
       - "5004:5004"
 
-    container_name: service-offering-service
-
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_APPLICATION_NAME: "service-offering-service"
+      SPRING_APPLICATION_NAME: service-offering-service
 
     healthcheck:
       test:
@@ -283,7 +265,10 @@ services:
       start_period: 20s
 
     depends_on:
-      gateway-service:
+      eurekaserver:
+        condition: service_healthy
+
+      postgres:
         condition: service_healthy
 
     deploy:
@@ -322,8 +307,9 @@ services:
       start_period: 20s
 
     depends_on:
-      euerkaserver:
+      eurekaserver:
         condition: service_healthy
+
       postgres:
         condition: service_healthy
 
@@ -342,11 +328,10 @@ services:
 
   payment-service:
     image: "gasmonkeynik/salon-payment:v1"
+    container_name: payment-service
 
     ports:
       - "5006:5006"
-
-    container_name: payment-service
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -370,7 +355,10 @@ services:
       start_period: 20s
 
     depends_on:
-      gateway-service:
+      eurekaserver:
+        condition: service_healthy
+
+      postgres:
         condition: service_healthy
 
     deploy:
@@ -382,9 +370,17 @@ services:
       - gasmonkeynik
 
 
+# =========================
+# VOLUMES
+# =========================
+
 volumes:
   postgres_data:
 
+
+# =========================
+# NETWORK
+# =========================
 
 networks:
   gasmonkeynik:

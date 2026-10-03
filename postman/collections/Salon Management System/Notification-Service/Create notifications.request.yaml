@@ -1,0 +1,26 @@
+$kind: http-request
+description: |-
+  Generated from cURL: curl --location 'http://localhost:5010/api/notifications' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "userId": 1,
+      "salonId": 10,
+      "title": "Booking Confirmed",
+      "message": "Your booking has been confirmed.",
+      "type": "BOOKING"
+  }'
+url: http://localhost:5010/api/notifications
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "userId": 1,
+        "salonId": 10,
+        "title": "Booking Confirmed",
+        "message": "Your booking has been confirmed.",
+        "type": "BOOKING"
+    }
+order: 1791035919372
