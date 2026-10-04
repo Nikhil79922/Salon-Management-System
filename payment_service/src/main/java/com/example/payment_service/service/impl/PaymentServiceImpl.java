@@ -6,6 +6,8 @@ import com.example.payment_service.entity.Payment;
 import com.example.payment_service.entity.enums.PaymentOrderStatus;
 import com.example.payment_service.exception.NotFoundException;
 import com.example.payment_service.mapper.PaymentMapper;
+import com.example.payment_service.messaging.BookingEventProducer;
+import com.example.payment_service.messaging.NotificationEventProducer;
 import com.example.payment_service.repository.PaymentRepository;
 import com.example.payment_service.service.PaymentService;
 import com.example.payment_service.strategy.PaymentStrategy;
@@ -21,6 +23,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final PaymentStrategyResolver paymentStrategyResolver;
+    private final BookingEventProducer bookingEventProducer;
+    private final NotificationEventProducer notificationEventProducer;
+
 
     @Transactional
     @Override
@@ -80,6 +85,8 @@ public class PaymentServiceImpl implements PaymentService {
                                 () -> new NotFoundException(
                                         "Payment not found")
                         );
+
+        PaymentResponse paymentResponse = paymentMapper.toResponse(payment);
         if (!payment.getPaymentLinkId().equals(paymentLinkId)) {
             return false;
         }
@@ -95,7 +102,16 @@ public class PaymentServiceImpl implements PaymentService {
                         payment,
                         paymentLinkId
                 );
-        payment.setStatus(providerStatus);
+        if(providerStatus == PaymentOrderStatus.SUCCESS){
+            bookingEventProducer.sendBookingUpdateEvent(paymentResponse);
+            notificationEventProducer.sendNotificationEvent(
+                    payment.getBookingId(),
+                    payment.getSalonId(),
+                    payment.getUserId()
+            );
+            payment.setStatus(providerStatus);
+        }
+
         return providerStatus == PaymentOrderStatus.SUCCESS;
     }
 }

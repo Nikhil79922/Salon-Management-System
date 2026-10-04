@@ -2,6 +2,7 @@ package com.example.booking_service.service;
 
 import com.example.booking_service.dto.*;
 import com.example.booking_service.entity.domains.SalonReport;
+import com.example.booking_service.entity.enums.PaymentOrderStatus;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,4 +26,6 @@ BookingResponse createBooking(BookingRequest bookingRequest,
     SalonReport getSalonReport(Long salonId);
 
     BookingResponse updateBooking(Long bookingId , BookingUpdateRequest bookingStatus);
+
+    BookingResponse bookingSuccess(PaymentDTO paymentDetails);
 }

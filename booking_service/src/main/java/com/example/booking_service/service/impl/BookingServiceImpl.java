@@ -5,6 +5,7 @@ import com.example.booking_service.dto.*;
 import com.example.booking_service.entity.Booking;
 import com.example.booking_service.entity.enums.BookingStatus;
 import com.example.booking_service.entity.domains.SalonReport;
+import com.example.booking_service.entity.enums.PaymentOrderStatus;
 import com.example.booking_service.exception.ForbiddenException;
 import com.example.booking_service.exception.BadRequestException;
 import com.example.booking_service.exception.NotFoundException;
@@ -215,5 +216,15 @@ public class BookingServiceImpl implements BookingService {
         details.setStatus(bookingStatus.status());
         return bookingMapper.toResponse(details);
 
+    }
+
+    @Transactional
+    @Override
+    public BookingResponse bookingSuccess(PaymentDTO paymentDetails) {
+        Booking details = bookingRepository.findById(paymentDetails.bookingId()).orElseThrow(
+                ()-> new NotFoundException("No bookings found for id : " + paymentDetails.bookingId())
+        );
+        details.setStatus(BookingStatus.CONFIRMED);
+        return   bookingMapper.toResponse(details);
     }
 }

@@ -1,8 +1,8 @@
-package com.example.notification_service.dto;
+package com.example.payment_service.dto;
 
 import java.time.LocalDateTime;
 
-public record NotificationResponse(
+public record NotificationDto(
         Long id,
         String type,
         String message,

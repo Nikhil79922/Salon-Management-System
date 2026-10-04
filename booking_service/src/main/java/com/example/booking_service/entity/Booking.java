@@ -24,7 +24,7 @@ import java.util.Set;
                 @Index(name = "idx_booking_salon_start", columnList = "salon_id, start_time")
         }
 )
-public class Booking {
+public class    Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

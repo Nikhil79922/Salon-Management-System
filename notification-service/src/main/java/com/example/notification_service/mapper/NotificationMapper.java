@@ -34,7 +34,7 @@ public class NotificationMapper {
                 notification.isRead(),
                 notification.getUserId(),
                 notification.getSalonId(),
-                bookingDto,
+                bookingDto.id(),
                 notification.getCreatedAt(),
                 notification.getUpdatedAt()
         );

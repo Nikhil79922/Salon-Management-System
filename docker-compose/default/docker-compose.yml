@@ -370,6 +370,122 @@ services:
       - gasmonkeynik
 
 
+  # =========================
+  # NOTIFICATION SERVICE
+  # =========================
+
+  notification-service:
+    image: "gasmonkeynik/salon-notification:v1"
+    container_name: notification-service
+
+    ports:
+      - "5010:5010"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: notification-service
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5010/actuator/health || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+
+      postgres:
+        condition: service_healthy
+
+      rabbitmq:
+        condition: service_healthy
+
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+
+    networks:
+      - gasmonkeynik
+
+
+  # =========================
+  # REVIEW SERVICE
+  # =========================
+
+  review-service:
+    image: "gasmonkeynik/salon-review:v1"
+    container_name: review-service
+
+    ports:
+      - "5011:5011"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_NAME: review-service
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:5011/actuator/health || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+
+      postgres:
+        condition: service_healthy
+
+      notification-service:
+        condition: service_healthy
+
+    deploy:
+      resources:
+        limits:
+          memory: 600m
+
+    networks:
+      - gasmonkeynik
+
+
+  # =========================
+  # RABBITMQ
+  # =========================
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      RABBITMQ_DEFAULT_USER: gasmonkey
+      RABBITMQ_DEFAULT_PASS: gasmonkey
+
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+    networks:
+      - gasmonkeynik
+
 # =========================
 # VOLUMES
 # =========================
@@ -385,3 +501,4 @@ volumes:
 networks:
   gasmonkeynik:
     driver: bridge
+
